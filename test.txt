@@ -1,0 +1,5 @@
+Hello There! Thank you for using Hooke!
+This is a test file to prove that everything is working as intended.
+
+
+You Shouldn't notice anything not going as intended. Checking 32 word limit.... Ahm... Is the text nicely split?
