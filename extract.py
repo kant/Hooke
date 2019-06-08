@@ -16,7 +16,7 @@ def text(urls):
             html = urllib.request.urlopen(url).read()
             soup = BeautifulSoup(html,"lxml")
             [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
-            text.append(soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("  "," "))
+            text.append(soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," "))
         except:
             text.append("")
             pass
@@ -24,14 +24,16 @@ def text(urls):
 
 def normalize(input):
     print("Normalizing...")
-    output = input.lower()
-    output = output.translate(str.maketrans("","", string.punctuation))
-    output = output.strip()
-    output = word_tokenize(output)
-    return output
+    out = []
+    for x in input:
+        output = x.lower()
+        output = output.translate(str.maketrans("","", string.punctuation))
+        output = output.strip()
+        out.append(word_tokenize(output))
+    return out
 
 def preprocess(input, lang="english"):
-    print("Preprocessing")
+    print("Preprocessing...")
     stop_words = set(stopwords.words(lang))
     output = []
     stemmer = PorterStemmer()
