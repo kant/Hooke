@@ -23,6 +23,7 @@ def text(urls):
     return text
 
 def normalize(input):
+    print("Normalizing...")
     output = input.lower()
     output = output.translate(str.maketrans("","", string.punctuation))
     output = output.strip()
@@ -30,6 +31,7 @@ def normalize(input):
     return output
 
 def preprocess(input, lang="english"):
+    print("Preprocessing")
     stop_words = set(stopwords.words(lang))
     output = []
     stemmer = PorterStemmer()
@@ -42,7 +44,4 @@ def preprocess(input, lang="english"):
         output.append(out)
     return output
 
-s = normalize("William Shakespear was a very important textwiter and actor, born in 1564. When he was 17")
-s = [s]
-print(s)
-print(preprocess(s))
+
