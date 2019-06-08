@@ -31,7 +31,7 @@ def search(searches, results=1):
                 list.append(url)
     return list
 
-#Old
+##Old
 #import googlesearch
 #
 # def search(searches, results=1, pause = 5):
