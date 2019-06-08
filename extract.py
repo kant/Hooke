@@ -1,5 +1,11 @@
 import urllib.request
 from bs4 import BeautifulSoup
+import string
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+
 
 def text(urls):
     print("Extracting text from", len(urls),"URLs....")
@@ -16,3 +22,27 @@ def text(urls):
             pass
     return text
 
+def normalize(input):
+    output = input.lower()
+    output = output.translate(str.maketrans("","", string.punctuation))
+    output = output.strip()
+    output = word_tokenize(output)
+    return output
+
+def preprocess(input, lang="english"):
+    stop_words = set(stopwords.words(lang))
+    output = []
+    stemmer = PorterStemmer()
+    lemmatizer = WordNetLemmatizer()
+    for x in input:
+        out = []
+        tem = [i for i in x if not i in stop_words]
+        for word in tem:
+            out.append(  lemmatizer.lemmatize(stemmer.stem(word))  )
+        output.append(out)
+    return output
+
+s = normalize("William Shakespear was a very important textwiter and actor, born in 1564. When he was 17")
+s = [s]
+print(s)
+print(preprocess(s))
