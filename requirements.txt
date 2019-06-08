@@ -1,3 +1,4 @@
 textract>=1.6
 git+https://github.com/abenassi/Google-Search-API
 BeautifulSoup4>=4.5
+nltk>=3.4.3

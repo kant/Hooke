@@ -2,7 +2,7 @@ import search, extract
 
 read = search.read("test.txt")
 search = search.search(read)
-extract = extract.text(search)
-for x in extract:
-    print(x)
+ex = extract.text(search)
+for x in ex:
+    print( extract.preprocess(extract.normalize(x) ))
 print(len(extract),"texts")
