@@ -7,13 +7,13 @@ from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 
 
-def text(urls):
+def text(urls, timeout = 30):
     print("Extracting text from", len(urls),"URLs....")
     text = []
     for url in urls:
         try:
             print("Downloading text from",url)
-            html = urllib.request.urlopen(url).read()
+            html = urllib.request.urlopen(url, timeout=timeout).read()
             soup = BeautifulSoup(html,"lxml")
             [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
             text.append(soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," "))
