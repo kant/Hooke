@@ -2,10 +2,10 @@ import search, extract, compare
 
 ##vars
 inp = "test.txt"
-nort = 2
-norl = 6
-pret = 1
-prel = 5
+nort = 1
+norl = 7
+pret = 0
+prel = 10
 timeout = 10
 ##/vars
 
