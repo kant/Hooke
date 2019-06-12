@@ -10,6 +10,7 @@ timeout = 10
 lang = "english"
 ##/vars
 
+# Init ExtractC class
 extract = extract.ExtractC()
 
 read = search.read(inp)
