@@ -33,11 +33,10 @@ class ExtractC():
         output = output.strip()
         return word_tokenize(output)
 
-    def preprocess(self, x, stop_words):
+    def preprocess(self, x):
         print("Preprocessing...")
-        print(x)
         out = []
-        tem = [i for i in x if not i in stop_words]
+        tem = [i for i in x if not i in self.stop_words]
         for word in tem:
             out.append(  self.lemmatizer.lemmatize(self.stemmer.stem(word))  )
         return out
