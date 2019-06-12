@@ -1,23 +1,24 @@
 import textract
 from google import google
 
-
 def read(file, every=16, length=32):
     print("Reading...")
     raw = textract.process(file)
-    words = raw.split()
+    words = raw.decode().split()
+    return words
+
+def div(words, every=16, length=32):
+    search = []
     count = 0
     run = True
-    search = []
-
     while run:
-        current = b""
+        current = ""
         for x in range(count * every, count * every + length):
             try:
-                current = current + b" " + words[x]
+                current = current + " " + words[x]
             except:
                 run = False
-        search.append(current.decode())
+        search.append(current)
         count += 1
     return search
 

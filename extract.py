@@ -6,44 +6,39 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 
+class ExtractC():
+    def __init__(self, lang = "english"):
+        self.stop_words = set(stopwords.words(lang))
+        self.stemmer = PorterStemmer()
+        self.lemmatizer = WordNetLemmatizer()
 
-def text(urls, timeout = 30):
-    print("Extracting text from", len(urls),"URLs....")
-    text = []
-    for url in urls:
+    def text(self, url, timeout = 30):
         try:
             print("Downloading text from",url)
             html = urllib.request.urlopen(url, timeout=timeout).read()
             soup = BeautifulSoup(html,"lxml")
             [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
-            text.append(soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," "))
+            return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
         except:
-            text.append("")
+            return ""
             pass
-    return text
 
-def normalize(input):
-    print("Normalizing...")
-    out = []
-    for x in input:
-        output = x.lower()
+    def normalize(self, x):
+        y = ""
+        for z in x:
+            y = y + z + " "
+        print("Normalizing...")
+        output = y.lower()
         output = output.translate(str.maketrans("","", string.punctuation))
         output = output.strip()
-        out.append(word_tokenize(output))
-    return out
+        return word_tokenize(output)
 
-def preprocess(input, lang="english"):
-    print("Preprocessing...")
-    stop_words = set(stopwords.words(lang))
-    output = []
-    stemmer = PorterStemmer()
-    lemmatizer = WordNetLemmatizer()
-    for x in input:
+    def preprocess(self, x, stop_words):
+        print("Preprocessing...")
+        print(x)
         out = []
         tem = [i for i in x if not i in stop_words]
         for word in tem:
-            out.append(  lemmatizer.lemmatize(stemmer.stem(word))  )
-        output.append(out)
-    return output
-
+            out.append(  self.lemmatizer.lemmatize(self.stemmer.stem(word))  )
+        return out
 
