@@ -21,7 +21,6 @@ class ExtractC():
             return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
         except:
             return ""
-            pass
 
     def normalize(self, x):
         y = ""
