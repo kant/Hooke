@@ -41,15 +41,18 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 #Finish
-sources = []
+m1 = []
 for y in norcom:
     match, source, text = y
     print(match)
-    if source not in sources:
-        sources.append(source)
+    m1.append[y[0].dist, text, source, y[0].start, y[0].end]
 
-print(sources)
-for source in sources:
-    print(searchurls[source])
+m2 = [[None]]*searchurls
+for y in m1:
+        m2[y[2]].append(y)
+
+print(m2)
+
+# Time
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])
