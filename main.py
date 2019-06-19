@@ -1,5 +1,6 @@
 import search, extract, compare
 import time
+import copy
 
 ##vars
 inp = "test.txt"
@@ -44,12 +45,13 @@ times.append(time.time())
 m1 = []
 for y in norcom:
     match, source, text = y
-    print(match)
-    m1.append[y[0].dist, text, source, y[0].start, y[0].end]
+    m1.append([match.dist, text, source, match.start, match.end])
 
-m2 = [[None]]*searchurls
-for y in m1:
-        m2[y[2]].append(y)
+print(m1)
+m2 = [[]for k in range(len(searchurls))]
+for z in m1:
+        print(z[2], m2)
+        m2[z[2]].append(y)
 
 print(m2)
 
