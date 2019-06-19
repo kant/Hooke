@@ -54,7 +54,6 @@ for z in m1:
         m2[z[2]].append(y)
 
 print(m2)
-
 # Time
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])
