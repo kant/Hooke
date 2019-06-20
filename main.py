@@ -47,13 +47,19 @@ for y in norcom:
     match, source, text = y
     m1.append([match.dist, text, source, match.start, match.end])
 
-print(m1)
 m2 = [[]for k in range(len(searchurls))]
 for z in m1:
-        print(z[2], m2)
-        m2[z[2]].append(y)
+        m2[z[2]].append(z)
 
-print(m2)
+m3 = [[]for k in range(len(searchurls))]
+for z in m2:
+        results = [(z[0],0)]
+        count = 0
+        for match in z[1:]:
+                if match[3] > results[-1][0][4]:
+                        count += 1
+                results.append((match, count))
+        m3.append(results)
 # Time
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])
