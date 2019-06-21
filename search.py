@@ -9,7 +9,7 @@ def read(file, every=16, length=32):
     return words
 
 def div(words, every=16, length=32):
-    # Divides the text in google-friendly 32 word text
+    # Divides the text in google-friendly 32 word text in 16 word intervals
     search = []
     count = 0
     run = True
