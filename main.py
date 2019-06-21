@@ -65,9 +65,13 @@ for z in m2:
         except IndexError:
                 m3.append(None)
 
-print(len(m3))
-
-
+count = 0
+for source in m3:
+        try:
+                print(source[-1][-1],"matches from", searchurls[count])
+        except:
+                pass
+        count += 1
 
 # Time
 for x in range(0, len(times) - 1):
