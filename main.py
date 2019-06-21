@@ -1,4 +1,4 @@
-import search, extract, compare
+import search, extract, compare, order
 import time
 import copy
 
@@ -42,31 +42,11 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 ##Finish
-#Extract matche elements
-m1 = []
-for y in norcom:
-    match, source, text = y
-    m1.append([match.dist, text, source, match.start, match.end])
+m1 = order.match_elements(norcom)
+m2 = order.source_sort(m1, len(searchurls))
+m3 = order.check_merges(m2)
 
-#Orginize by source
-m2 = [[]for k in range(len(searchurls))]
-for z in m1:
-        m2[z[2]].append(z)
-
-#Check merges (Textual)
-m3 = []
-print(len(m2),"sources compared")
-for z in m2:
-        try:
-                results = [(z[0],0)]
-                count = 0
-                for match in z[1:]:
-                        if match[3] > results[-1][0][4]:
-                                count += 1
-                        results.append((match, count))
-                m3.append(results)
-        except IndexError:
-                m3.append(None)
+print(len(m2),"sources compared textually")
 
 #Print (Textual)
 count = 0
@@ -76,6 +56,7 @@ for source in m3:
         except:
                 pass
         count += 1
+
 
 times.append(time.time())
 # Time
