@@ -53,7 +53,7 @@ m2 = [[]for k in range(len(searchurls))]
 for z in m1:
         m2[z[2]].append(z)
 
-#Check merges
+#Check merges (Textual)
 m3 = []
 print(len(m2))
 for z in m2:
@@ -68,7 +68,7 @@ for z in m2:
         except IndexError:
                 m3.append(None)
 
-#Print
+#Print (Textual)
 count = 0
 for source in m3:
         try:
