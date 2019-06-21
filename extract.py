@@ -8,11 +8,12 @@ from nltk.stem import WordNetLemmatizer
 
 class ExtractC():
     def __init__(self, lang = "english"):
+        #Initializes a extractor class, to set the stopwords and lenguaje just once
         self.stop_words = set(stopwords.words(lang))
-        self.stemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
 
     def text(self, url, timeout = 30):
+        #Downloads text from the urls
         try:
             print("Downloading text from",url)
             html = urllib.request.urlopen(url, timeout=timeout).read()
@@ -23,6 +24,7 @@ class ExtractC():
             return ""
 
     def normalize(self, x):
+        # Lowers, eliminates punctuation and strips text
         y = ""
         for z in x:
             y = y + z + " "
@@ -33,10 +35,11 @@ class ExtractC():
         return word_tokenize(output)
 
     def preprocess(self, x):
+        # Preprocesses using nltk stopwords and lemmatizer
         print("Preprocessing...")
         out = []
         tem = [i for i in x if not i in self.stop_words]
         for word in tem:
-            out.append(  self.lemmatizer.lemmatize(self.stemmer.stem(word))  )
+            out.append(  self.lemmatizer.lemmatize(word)  )
         return out
 

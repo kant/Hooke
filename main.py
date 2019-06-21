@@ -14,20 +14,20 @@ lang = "english"
 
 times = []
 times.append(time.time())
-# Init ExtractC class
+##Init ExtractC class
 extract = extract.ExtractC(lang)
 
-# Read and divide
+##Read and divide
 read = search.read(inp)
 searches = search.div(read)
 times.append(time.time())
 
-# Preprocess
+##Preprocess
 norread = extract.normalize(read)
 preread = extract.preprocess(norread)
 times.append(time.time())
 
-# Search
+##Search
 searchurls = search.search(searches)
 nortexts = []
 pretexts = []
@@ -36,21 +36,24 @@ for url in searchurls:
     pretexts.append(extract.preprocess(nortexts[-1]))
 times.append(time.time())
 
-#Compare
+##Compare
 norcom = compare.compare(norread, nortexts, threshold=nort,length=norl)
 precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
-#Finish
+##Finish
+#Extract matche elements
 m1 = []
 for y in norcom:
     match, source, text = y
     m1.append([match.dist, text, source, match.start, match.end])
 
+#Orginize by source
 m2 = [[]for k in range(len(searchurls))]
 for z in m1:
         m2[z[2]].append(z)
 
+#Check merges
 m3 = []
 print(len(m2))
 for z in m2:
@@ -65,6 +68,7 @@ for z in m2:
         except IndexError:
                 m3.append(None)
 
+#Print
 count = 0
 for source in m3:
         try:
@@ -73,6 +77,7 @@ for source in m3:
                 pass
         count += 1
 
+times.append(time.time())
 # Time
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])

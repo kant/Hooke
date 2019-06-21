@@ -2,12 +2,14 @@ import textract
 from google import google
 
 def read(file, every=16, length=32):
+    # Reads from file
     print("Reading...")
     raw = textract.process(file)
     words = raw.decode().split()
     return words
 
 def div(words, every=16, length=32):
+    # Divides the text in google-friendly 32 word text
     search = []
     count = 0
     run = True
@@ -23,6 +25,7 @@ def div(words, every=16, length=32):
     return search
 
 def search(searches, results=1):
+    # Searches divided text in google
     print("Searching", len(searches),"queries...")
     list = []
     for x in searches:
@@ -31,15 +34,3 @@ def search(searches, results=1):
             if url not in list:
                 list.append(url)
     return list
-
-##Old
-#import googlesearch
-#
-# def search(searches, results=1, pause = 5):
-#     print("Searching", len(searches),"queries...")
-#     list = []
-#     for x in searches:
-#         for url in googlesearch.search(x, num=results, pause=pause):
-#             if url not in list:
-#                 list.append(url)
-#     return list
