@@ -55,7 +55,7 @@ for z in m1:
 
 #Check merges (Textual)
 m3 = []
-print(len(m2))
+print(len(m2),"sources compared")
 for z in m2:
         try:
                 results = [(z[0],0)]
