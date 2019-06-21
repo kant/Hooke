@@ -68,7 +68,7 @@ for z in m2:
 count = 0
 for source in m3:
         try:
-                print(source[-1][-1],"matches from", searchurls[count])
+                print(source[-1][-1] + 1,"matches from", searchurls[count])
         except:
                 pass
         count += 1
