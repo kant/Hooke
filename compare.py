@@ -1,6 +1,7 @@
 from fuzzysearch import find_near_matches
 
 def compare(input, texts,length=5, threshold=1):
+    # Uses fizzysearch´s Levenshtein search to find matches in n length
     matches = []
     query = []
     for n in range((len(input) - length + 1)):
