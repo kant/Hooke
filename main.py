@@ -51,15 +51,24 @@ m2 = [[]for k in range(len(searchurls))]
 for z in m1:
         m2[z[2]].append(z)
 
-m3 = [[]for k in range(len(searchurls))]
+m3 = []
+print(len(m2))
 for z in m2:
-        results = [(z[0],0)]
-        count = 0
-        for match in z[1:]:
-                if match[3] > results[-1][0][4]:
-                        count += 1
-                results.append((match, count))
-        m3.append(results)
+        try:
+                results = [(z[0],0)]
+                count = 0
+                for match in z[1:]:
+                        if match[3] > results[-1][0][4]:
+                                count += 1
+                        results.append((match, count))
+                m3.append(results)
+        except IndexError:
+                m3.append(None)
+
+print(len(m3))
+
+
+
 # Time
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])
