@@ -1,10 +1,13 @@
 import urllib.request
 from bs4 import BeautifulSoup
+from tika import parser
 import string
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
+import wget
+import os
+
 
 class ExtractC():
     def __init__(self, lang = "english"):
@@ -12,14 +15,22 @@ class ExtractC():
         self.stop_words = set(stopwords.words(lang))
         self.lemmatizer = WordNetLemmatizer()
 
-    def text(self, url, timeout = 30):
+    def text(self, url, timeout = 30, stika = True):
         #Downloads text from the urls
         try:
             print("Downloading text from",url)
-            html = urllib.request.urlopen(url, timeout=timeout).read()
-            soup = BeautifulSoup(html,"lxml")
-            [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
-            return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
+            if ".pdf" in url and stika:
+                wget.download(url, "temp/temp.pdf", None)
+                parsed = parser.from_file("temp/temp.pdf")['content']
+                os.remove("temp/temp.pdf")
+                return parsed.replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
+            elif not stika:
+                return ""
+            else:
+                html = urllib.request.urlopen(url, timeout=timeout).read()
+                soup = BeautifulSoup(html,"lxml")
+                [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
+                return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
         except:
             return ""
 
