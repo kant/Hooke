@@ -32,8 +32,10 @@ class ExtractC():
                 return ""
             else:
                 html = urllib.request.urlopen(url, timeout=timeout).read()
-                if html[:5] == b"%PDF-":
+                if html[:5] == b"%PDF-" and stika:
                     return download_pdf(url)
+                elif not stika:
+                    return ""
                 soup = BeautifulSoup(html,"lxml")
                 [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
                 return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
