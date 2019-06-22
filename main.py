@@ -3,7 +3,7 @@ import time
 import copy
 
 ##vars
-inp = "test.txt"
+inp = "test/test.txt"
 nort = 5
 norl = 50
 pret = 15
