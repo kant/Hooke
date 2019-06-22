@@ -43,7 +43,7 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 ##Finish
-print(len(m2),"sources compared")
+print(len(searchurls),"sources compared")
 print("Textual Matches:")
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
