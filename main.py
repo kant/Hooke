@@ -6,8 +6,8 @@ import copy
 inp = "test/test.txt"
 nort = 5
 norl = 50
-pret = 15
-prel = 30
+pret = 5
+prel = 10
 timeout = 10
 lang = "english"
 pdfsupport = True
@@ -38,6 +38,7 @@ for url in searchurls:
 times.append(time.time())
 
 ##Compare
+print("\nComparing...")
 norcom = compare.compare(norread, nortexts, threshold=nort,length=norl)
 precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
@@ -57,6 +58,7 @@ n3 = order.check_merges(m2)
 order.print_matches(n3, searchurls, ex)
 
 times.append(time.time())
+
 # Time
 print("\nTime taken:")
 for x in range(0, len(times) - 1):
