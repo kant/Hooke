@@ -6,7 +6,7 @@ import copy
 inp = "test.txt"
 nort = 5
 norl = 50
-pret = 8
+pret = 15
 prel = 30
 timeout = 10
 lang = "english"
