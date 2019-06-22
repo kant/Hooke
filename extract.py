@@ -28,7 +28,7 @@ class ExtractC():
             print("Downloading text from",url)
             if ".pdf" in url and stika:
                 return download_pdf(url)
-            elif not stika:
+            elif ".pdf" in url and not stika:
                 return ""
             else:
                 html = urllib.request.urlopen(url, timeout=timeout).read()
