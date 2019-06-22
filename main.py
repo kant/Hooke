@@ -10,6 +10,7 @@ pret = 0
 prel = 50
 timeout = 10
 lang = "english"
+pdfsupport = True
 ##/vars
 
 times = []

@@ -3,3 +3,5 @@ git+https://github.com/abenassi/Google-Search-API
 BeautifulSoup4>=4.5
 nltk>=3.4.3
 fuzzysearch>=0.6.2
+tika>=1.19
+wget>=3.2
