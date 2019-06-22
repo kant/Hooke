@@ -29,12 +29,16 @@ def check_merges(matches):
                 output.append(None)
     return output
 
-def print_matches(matches, searchurls):
+def print_matches(matches, searchurls, ex = []):
     #Prints Matches
     count = 0
+    exclude = []
     for source in matches:
             try:
-                    print(source[-1][-1] + 1,"match (es) from", searchurls[count])
+                    if count not in ex:
+                        print(source[-1][-1] + 1,"match (es) from", searchurls[count])
+                        exclude.append(count)
             except:
                     pass
             count += 1
+    return exclude

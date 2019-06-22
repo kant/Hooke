@@ -44,17 +44,17 @@ times.append(time.time())
 
 ##Finish
 print(len(searchurls),"sources compared")
-print("Textual Matches:")
+print("\nTextual Matches:")
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
 m3 = order.check_merges(m2)
-order.print_matches(m3, searchurls)
+ex = order.print_matches(m3, searchurls)
 
 print("\nIndirect Matches:")
 n1 = order.match_elements(precom)
 n2 = order.source_sort(m1, len(searchurls))
 n3 = order.check_merges(m2)
-order.print_matches(n3, searchurls)
+order.print_matches(n3, searchurls, ex)
 
 times.append(time.time())
 # Time
