@@ -61,7 +61,7 @@ for source in m3:
 
 times.append(time.time())
 # Time
-print("Time taken:")
+print("\nTime taken:")
 for x in range(0, len(times) - 1):
     print(times[x+1]- times[x])
 print("Total:", times[-1] - times[0])
