@@ -6,7 +6,7 @@ import copy
 inp = "test.txt"
 nort = 5
 norl = 50
-pret = 2
+pret = 8
 prel = 30
 timeout = 10
 lang = "english"
@@ -43,7 +43,7 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 ##Finish
-print(len(searchurls),"sources compared")
+print(len(searchurls),"\nsources compared")
 print("\nTextual Matches:")
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
