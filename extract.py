@@ -15,19 +15,25 @@ class ExtractC():
         self.stop_words = set(stopwords.words(lang))
         self.lemmatizer = WordNetLemmatizer()
 
+    def download_pdf(url):
+        #Download PDFs
+        wget.download(url, "temp/temp.pdf", None)
+        parsed = parser.from_file("temp/temp.pdf")['content']
+        os.remove("temp/temp.pdf")
+        return parsed.replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
+
     def text(self, url, timeout = 30, stika = True):
         #Downloads text from the urls
         try:
             print("Downloading text from",url)
             if ".pdf" in url and stika:
-                wget.download(url, "temp/temp.pdf", None)
-                parsed = parser.from_file("temp/temp.pdf")['content']
-                os.remove("temp/temp.pdf")
-                return parsed.replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
+                return download_pdf(url)
             elif not stika:
                 return ""
             else:
                 html = urllib.request.urlopen(url, timeout=timeout).read()
+                if html[:5] == b"%PDF-":
+                    return download_pdf(url)
                 soup = BeautifulSoup(html,"lxml")
                 [s.extract() for s in soup(['style', 'script', '[document]', 'head', 'title'])]
                 return soup.getText().replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
