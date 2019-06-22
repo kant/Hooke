@@ -6,8 +6,8 @@ import copy
 inp = "test.txt"
 nort = 5
 norl = 50
-pret = 0
-prel = 50
+pret = 2
+prel = 30
 timeout = 10
 lang = "english"
 pdfsupport = True
@@ -43,17 +43,18 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 ##Finish
+print(len(m2),"sources compared")
+print("Textual Matches:")
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
 m3 = order.check_merges(m2)
-print(len(m2),"sources are similar textually")
 order.print_matches(m3, searchurls)
 
-m1 = order.match_elements(precom)
-m2 = order.source_sort(m1, len(searchurls))
-m3 = order.check_merges(m2)
-print(len(m2),"sources are similar in meaning")
-order.print_matches(m3, searchurls)
+print("\nIndirect Matches:")
+n1 = order.match_elements(precom)
+n2 = order.source_sort(m1, len(searchurls))
+n3 = order.check_merges(m2)
+order.print_matches(n3, searchurls)
 
 times.append(time.time())
 # Time
