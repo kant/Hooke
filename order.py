@@ -27,3 +27,12 @@ def check_merges(matches):
         except IndexError:
                 output.append(None)
     return output
+
+def print_matches(matches, searchurls):
+    count = 0
+    for source in matches:
+            try:
+                    print(source[-1][-1] + 1,"match (es) from", searchurls[count])
+            except:
+                    pass
+            count += 1

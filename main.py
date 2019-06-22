@@ -46,18 +46,14 @@ times.append(time.time())
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
 m3 = order.check_merges(m2)
+print(len(m2),"sources are similar textually")
+order.print_matches(m3, searchurls)
 
-print(len(m2),"sources compared textually")
-
-#Print (Textual)
-count = 0
-for source in m3:
-        try:
-                print(source[-1][-1] + 1,"match (es) from", searchurls[count])
-        except:
-                pass
-        count += 1
-
+m1 = order.match_elements(precom)
+m2 = order.source_sort(m1, len(searchurls))
+m3 = order.check_merges(m2)
+print(len(m2),"sources are similar in meaning")
+order.print_matches(m3, searchurls)
 
 times.append(time.time())
 # Time
