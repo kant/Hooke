@@ -14,6 +14,7 @@ def source_sort(matches, leng):
     return output
 
 def check_merges(matches):
+    #Checks merging matches
     output = []
     for z in matches:
         try:
@@ -29,6 +30,7 @@ def check_merges(matches):
     return output
 
 def print_matches(matches, searchurls):
+    #Prints Matches
     count = 0
     for source in matches:
             try:
