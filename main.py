@@ -33,8 +33,10 @@ searchurls = search.search(searches)
 nortexts = []
 pretexts = []
 for url in searchurls:
-    nortexts.append( extract.normalize(extract.text(url, timeout, pdfsupport).split()))
-    pretexts.append(extract.preprocess(nortexts[-1]))
+    nor = extract.normalize(extract.text(url, timeout, pdfsupport).split())
+    pre = extract.preprocess(nor)
+    pretexts.append(pre)
+    nortexts.append(nor)
 times.append(time.time())
 
 ##Compare
