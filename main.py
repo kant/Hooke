@@ -7,8 +7,8 @@ from concurrent.futures import ThreadPoolExecutor, wait
 inp = "test/test.txt"
 nort = 5
 norl = 50
-pret = 5
-prel = 10
+pret = 4
+prel = 8
 timeout = 10
 lang = "english"
 pdfsupport = False
@@ -35,7 +35,7 @@ times.append(time.time())
 searchurls = search.search(searches)
 nortexts = []
 pretexts = []
-print("\nDownloading...")
+print("Downloading...")
 with ThreadPoolExecutor(max_workers=threads) as executor:
     futures = []
     for url in searchurls:
@@ -48,7 +48,7 @@ with ThreadPoolExecutor(max_workers=threads) as executor:
 times.append(time.time())
 
 ##Compare
-print("\nComparing...")
+print("Comparing...")
 norcom = compare.compare(norread, nortexts, threshold=nort,length=norl)
 precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
