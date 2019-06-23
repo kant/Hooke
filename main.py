@@ -1,6 +1,7 @@
 import search, extract, compare, order
 import time
 import copy
+from concurrent.futures import ThreadPoolExecutor, wait
 
 ##vars
 inp = "test/test.txt"
@@ -11,6 +12,7 @@ prel = 10
 timeout = 10
 lang = "english"
 pdfsupport = False
+threads = 5
 ##/vars
 
 times = []
@@ -32,11 +34,16 @@ times.append(time.time())
 searchurls = search.search(searches)
 nortexts = []
 pretexts = []
-for url in searchurls:
-    nor = extract.normalize(extract.text(url, timeout, pdfsupport).split())
-    pre = extract.preprocess(nor)
-    pretexts.append(pre)
-    nortexts.append(nor)
+print("\nDownloading...")
+with ThreadPoolExecutor(max_workers=threads) as executor:
+    futures = []
+    for url in searchurls:
+        futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
+    wait(futures)
+    for x in futures:
+        nor, pre = x.result()
+        nortexts.append(nor)
+        pretexts.append(pre)
 times.append(time.time())
 
 ##Compare
@@ -46,7 +53,7 @@ precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
 times.append(time.time())
 
 ##Finish
-print("\n",len(searchurls),"Sources compared")
+print("\n"+str(len(searchurls)),"Sources compared")
 print("\nTextual Matches:")
 m1 = order.match_elements(norcom)
 m2 = order.source_sort(m1, len(searchurls))
