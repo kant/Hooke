@@ -12,7 +12,8 @@ prel = 10
 timeout = 10
 lang = "english"
 pdfsupport = False
-threads = 5
+threads = 10
+tim = 30
 ##/vars
 
 times = []
@@ -39,7 +40,7 @@ with ThreadPoolExecutor(max_workers=threads) as executor:
     futures = []
     for url in searchurls:
         futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
-    wait(futures)
+    wait(futures, timeout=tim)
     for x in futures:
         nor, pre = x.result()
         nortexts.append(nor)
