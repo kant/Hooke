@@ -7,8 +7,8 @@ from concurrent.futures import ThreadPoolExecutor, wait
 inp = "test/test.txt"
 nort = 5
 norl = 50
-pret = 4
-prel = 8
+pret = 3
+prel = 7
 timeout = 10
 lang = "english"
 pdfsupport = False
@@ -35,6 +35,8 @@ times.append(time.time())
 searchurls = search.search(searches)
 nortexts = []
 pretexts = []
+
+#Download
 print("Downloading...")
 with ThreadPoolExecutor(max_workers=threads) as executor:
     futures = []
