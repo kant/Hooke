@@ -13,7 +13,7 @@ timeout = 10
 lang = "english"
 pdfsupport = False
 threads = 10
-tim = 30
+tim = 30 #Max time per thread
 ##/vars
 
 times = []
