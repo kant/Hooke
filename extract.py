@@ -11,9 +11,7 @@ import os
 
 class ExtractC():
     def __init__(self, lang = "english"):
-        #Initializes a extractor class, to set the stopwords and lenguaje just once
-        self.stop_words = set(stopwords.words(lang))
-        self.lemmatizer = WordNetLemmatizer()
+        pass ## Posible Future Use
 
     def download_pdf(url):
         #Download PDFs
@@ -30,8 +28,8 @@ class ExtractC():
             elif ".pdf" in url and not stika:
                 return ""
             else:
-                html = urllib.request.urlopen(url, timeout=timeout).read()
-                if html[:5] == b"%PDF-":
+                html = urllib.request.urlopen(url, timeout=timeout).read().decode()
+                if html[:5] == "%PDF-":
                     if stika:
                         return download_pdf(url)
                     return ""
@@ -51,17 +49,8 @@ class ExtractC():
         output = output.strip()
         return word_tokenize(output)
 
-    def preprocess(self, x):
-        # Preprocesses using nltk stopwords and lemmatizer
-        out = []
-        tem = [i for i in x if not i in self.stop_words]
-        for word in tem:
-            out.append(  self.lemmatizer.lemmatize(word)  )
-        return out
-
     def doall(self, url, timeout, pdfsupport):
         # Does all (Makes it easier to multithread)
         raw = self.text(url, timeout, pdfsupport)
         nor = self.normalize(raw.split())
-        pre = self.preprocess(nor)
-        return nor, pre
+        return nor

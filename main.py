@@ -3,76 +3,86 @@ import time
 import copy
 from concurrent.futures import ThreadPoolExecutor, wait
 
-##vars
-inp = "test/test.txt"
-nort = 5
-norl = 50
-pret = 3
-prel = 7
-timeout = 10
-lang = "english"
-pdfsupport = False
-threads = 10
-tim = 30 #Max time per thread (Not working)
-##/vars
+class Hooke:
+    def __init__(self, timb = None, lang = None):
+        # Inits
+        if timb:
+            self.timb = True
+            self.times = []
+            self.tim()
+        if lang:
+            self.extract = extract.ExtractC(lang)
 
-times = []
-times.append(time.time())
-##Init ExtractC class
-extract = extract.ExtractC(lang)
+    def tim(self):
+        if self.timb:
+            self.times.append(time.time())
 
-##Read and divide
-read = search.read(inp)
-searches = search.div(read)
-times.append(time.time())
+    def read_text(self, input):
+        ##Read and tokenize
+        self.read = search.read(input)
+        self.norread = self.extract.normalize(self.read)
+        self.tim()
 
-##Preprocess
-norread = extract.normalize(read)
-preread = extract.preprocess(norread)
-times.append(time.time())
+    def search_texts(self):
+        ##Divides and Search
+        searches = search.div(self.read)
+        self.searchurls = search.search(searches)
+        self.tim()
+    
+    def download_texts(self, threads = 10, max_time = 30, timeout = 10, pdfsupport = False):
+        #Download
+        nortexts = []
+        with ThreadPoolExecutor(max_workers=threads) as executor:
+            futures = []
+            for url in self.searchurls:
+                futures.append(executor.submit(self.extract.doall, url, timeout, pdfsupport))
+            wait(futures, timeout=max_time)
+            for x in futures:
+                nortexts.append(x.result())
+        self.nortexts = nortexts
+        self.tim()
 
-##Search
-searchurls = search.search(searches)
-nortexts = []
-pretexts = []
+    def compare_texts(self, length = 50, threshhold = 5):
+        ##Compare
+        self.norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
+        self.tim()
 
-#Download
-print("Downloading...")
-with ThreadPoolExecutor(max_workers=threads) as executor:
-    futures = []
-    for url in searchurls:
-        futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
-    wait(futures, timeout=tim)
-    for x in futures:
-        nor, pre = x.result()
-        nortexts.append(nor)
-        pretexts.append(pre)
-times.append(time.time())
+    def order_results(self, matches = None, searchurls = None):
+        #Order Array
+        if not matches:
+            matches = self.norcom
+        if not searchurls:
+            searchurls = self.searchurls
+        self.m1 = order.match_elements(matches)
+        self.m2 = order.source_sort(self.m1, len(searchurls))
+        self.m3 = order.check_merges(self.m2)
+        self.tim()
 
-##Compare
-print("Comparing...")
-norcom = compare.compare(norread, nortexts, threshold=nort,length=norl)
-precom = compare.compare(preread, pretexts, threshold=pret, length=prel)
-times.append(time.time())
+    def print_matches(self, results = None, searchurls = None):
+        #Prints
+        print("\nMatches:")
+        self.used = order.print_matches(self.m3, self.searchurls)
+        self.tim()
 
-##Finish
-print("\n"+str(len(searchurls)),"Sources compared")
-print("\nTextual Matches:")
-m1 = order.match_elements(norcom)
-m2 = order.source_sort(m1, len(searchurls))
-m3 = order.check_merges(m2)
-ex = order.print_matches(m3, searchurls)
+    def Textual(self,input = "test/test.txt", lang = "english", length = 50, threshhold = 5, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = False):
+        ## Does everything
+        self.__init__(timb, lang)
+        self.read_text(input)
+        self.search_texts()
+        self.download_texts(threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
+        self.compare_texts(length = length, threshhold = threshhold)
+        self.order_results()
 
-print("\nIndirect Matches:")
-n1 = order.match_elements(precom)
-n2 = order.source_sort(m1, len(searchurls))
-n3 = order.check_merges(m2)
-order.print_matches(n3, searchurls, ex)
+    def time(self):
+        # Time
+        print("\nTime taken:")
+        for x in range(0, len(self.times) - 1):
+            print(self.times[x+1]- self.times[x])
+        print("Total:", self.times[-1] - self.times[0])
 
-times.append(time.time())
 
-# Time
-print("\nTime taken:")
-for x in range(0, len(times) - 1):
-    print(times[x+1]- times[x])
-print("Total:", times[-1] - times[0])
+if __name__ == "__main__":
+    hk = Hooke()
+    hk.Textual()
+    hk.print_matches()
+    hk.time()
