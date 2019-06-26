@@ -46,15 +46,13 @@ class Hooke:
         self.norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
         self.tim()
 
-    def order_results(self, matches = None, searchurls = None):
+    def order_results(self, matches, searchurls):
         #Order Array
-        if not matches:
-            matches = self.norcom
-        if not searchurls:
-            searchurls = self.searchurls
-        self.m1 = order.match_elements(matches)
-        self.m2 = order.source_sort(self.m1, len(searchurls))
-        self.m3 = order.check_merges(self.m2)
+        matches = self.norcom
+        searchurls = self.searchurls
+        m1 = order.match_elements(matches)
+        m2 = order.source_sort(m1, len(searchurls))
+        self.m3 = order.check_merges(m2)
         self.tim()
 
     def print_matches(self, results = None, searchurls = None):

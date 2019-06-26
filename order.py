@@ -16,11 +16,11 @@ def source_sort(matches, leng):
 def check_merges(matches):
     #Checks merging matches
     output = []
-    for z in matches:
+    for source in matches:
         try:
-                results = [(z[0],0)]
+                results = [(source[0],0)]
                 count = 0
-                for match in z[1:]:
+                for match in source[1:]:
                         if match[3] > results[-1][0][4]:
                                 count += 1
                         results.append((match, count))
@@ -42,3 +42,15 @@ def print_matches(matches, searchurls, ex = []):
                     pass
             count += 1
     return exclude
+
+def separate_matches(matches):
+        output = []
+        for source in matches:
+                try:
+                        ts = [([] * (source[-1][-1] + 1))]
+                        for match in source:
+                                ts[match[1]].append(match[0])
+                        output.append(ts)
+                except:
+                        output.append(None)
+        return output
