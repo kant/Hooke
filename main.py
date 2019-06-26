@@ -1,6 +1,5 @@
 import search, extract, compare, order
 import time
-import copy
 from concurrent.futures import ThreadPoolExecutor, wait
 
 class Hooke:
@@ -18,13 +17,13 @@ class Hooke:
             self.times.append(time.time())
 
     def read_text(self, input):
-        ##Read and tokenize
+        #Read and tokenize
         self.read = search.read(input)
         self.norread = self.extract.normalize(self.read)
         self.tim()
 
     def search_texts(self):
-        ##Divides and Search
+        #Divides and Search
         searches = search.div(self.read)
         self.searchurls = search.search(searches)
         self.tim()
@@ -42,8 +41,8 @@ class Hooke:
         self.nortexts = nortexts
         self.tim()
 
-    def compare_texts(self, length = 50, threshhold = 5):
-        ##Compare
+    def compare_texts(self, length = 50, threshhold = 10):
+        #Compare
         self.norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
         self.tim()
 
@@ -64,8 +63,8 @@ class Hooke:
         self.used = order.print_matches(self.m3, self.searchurls)
         self.tim()
 
-    def Textual(self,input = "test/test.txt", lang = "english", length = 50, threshhold = 5, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = False):
-        ## Does everything
+    def Textual(self,input = "test/test.txt", lang = "english", length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
+        # Does everything
         self.__init__(timb, lang)
         self.read_text(input)
         self.search_texts()
