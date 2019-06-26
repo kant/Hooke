@@ -3,7 +3,6 @@ from google import google
 
 def read(file, every=16, length=32):
     # Reads from file
-    print("Reading...")
     raw = textract.process(file)
     words = raw.decode().split()
     return words
@@ -26,7 +25,6 @@ def div(words, every=16, length=32):
 
 def search(searches, results=1):
     # Searches divided text in google
-    print("Searching", len(searches),"queries...")
     list = []
     for x in searches:
         for element in google.search(x, results):
