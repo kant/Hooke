@@ -47,7 +47,7 @@ def separate_matches(matches):
         output = []
         for source in matches:
                 try:
-                        ts = [([] * (source[-1][-1] + 1))]
+                        ts = [[] for x in range(source[-1][-1] + 1)]
                         for match in source:
                                 ts[match[1]].append(match[0])
                         output.append(ts)
