@@ -7,9 +7,10 @@ It is yet to work properly
 To run a simple textual check:
 ```python
 import Hooke
-hk = Hooke()
-hk.Textual(input="test/test.txt")
-hk.print_matches()
+
+hk = Hooke() #Inits
+hk.Textual(input="test/test.txt") #Runs the comparison
+hk.print_matches() #Prints matches and source
 hk.time() #Prints time taken
 ```
 
