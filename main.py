@@ -52,7 +52,8 @@ class Hooke:
         searchurls = self.searchurls
         m2 = order.source_sort(order.match_elements(matchs) , len(searchurls))
         m3 = order.check_merges(m2)
-        self.matches = order.separate_matches(m3)
+        m4 = order.separate_matches(m3)
+        self.matches = order.join_matches(m4)
         self.tim()
 
     def print_matches(self, results = None, searchurls = None):
