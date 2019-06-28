@@ -48,17 +48,17 @@ class Hooke:
 
     def order_results(self):
         #Order Array
-        matches = self.norcom
+        matchs = self.norcom
         searchurls = self.searchurls
-        m2 = order.source_sort(order.match_elements(matches) , len(searchurls))
-        self.m3 = order.check_merges(m2)
-        print(order.separate_matches(self.m3))
+        m2 = order.source_sort(order.match_elements(matchs) , len(searchurls))
+        m3 = order.check_merges(m2)
+        self.matches = order.separate_matches(m3)
         self.tim()
 
     def print_matches(self, results = None, searchurls = None):
         #Prints
         print("\nMatches:")
-        self.used = order.print_matches(self.m3, self.searchurls)
+        self.used = order.print_matches(self.matches, self.searchurls)
         self.tim()
 
     def Textual(self,input = "test/test.txt", lang = "english", length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
