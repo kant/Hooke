@@ -36,7 +36,7 @@ def print_matches(matches, searchurls, ex = []):
     for source in matches:
             try:
                     if count not in ex:
-                        print(source[-1][-1] + 1,"match (es) from", searchurls[count])
+                        print(len(source),"match (es) from", searchurls[count])
                         exclude.append(count)
             except:
                     pass
