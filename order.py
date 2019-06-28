@@ -55,13 +55,6 @@ def separate_matches(matches):
                         output.append(None)
         return output
 
-def merge_list(one, two):
-        count = 0
-        for x in range(0, len(two) + len(one)):
-                print(one[-x:],two[:x])
-                if two[:x] == one[-x:]:
-                        return (one + two[x:])
-        return False
 
 def join_matches(matches):
         output = []
@@ -69,12 +62,12 @@ def join_matches(matches):
                 ns = []
                 try:
                         for match in source:
-                                tex = ""
+                                tex = match[0][1][:-1]
                                 added = 0
                                 for m in match:
-                                        added += match[0]
-                                        tex = merge_list(tex, match[1])
-                                ns.append(added/len(match), tex, match[0][3],match[-1][4])
+                                        added += m[0]
+                                        tex.append(m[1][-1])
+                                ns.append([added/len(match), tex, match[0][3],match[-1][4]])
                 except:
                         ns = None
                 output.append(ns)
