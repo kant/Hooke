@@ -4,7 +4,7 @@ def readme():
     with open('README.md') as f:
         return f.read()
 
-setup(name='Hooke',
+setup(name='pyHooke',
       version='0.1.0',
       description='Open source plagiarism checker',
       long_description=readme(),
