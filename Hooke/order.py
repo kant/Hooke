@@ -1,5 +1,5 @@
 def match_elements(matches):
-    #Extract match elements
+    '''Extract match elements'''
     output = []
     for y in matches:
         match, source, text = y
@@ -7,14 +7,14 @@ def match_elements(matches):
     return output
 
 def source_sort(matches, leng):
-    #Orginize by source
+    '''Orginize by source'''
     output = [[]for k in range(leng)]
     for x in matches:
         output[x[2]].append(x)
     return output
 
 def check_merges(matches):
-    #Checks merging matches
+    '''Checks merging matches'''
     output = []
     for source in matches:
         try:
@@ -30,7 +30,7 @@ def check_merges(matches):
     return output
 
 def print_matches(matches, searchurls, ex = []):
-    #Prints Matches
+    '''Prints Matches'''
     count = 0
     exclude = []
     for source in matches:
@@ -44,6 +44,7 @@ def print_matches(matches, searchurls, ex = []):
     return exclude
 
 def separate_matches(matches):
+        '''Separates matches based on last classification'''
         output = []
         for source in matches:
                 try:
@@ -57,6 +58,7 @@ def separate_matches(matches):
 
 
 def join_matches(matches):
+        '''Joins each array of the same match, putting the texts togather and averaging its distance'''
         output = []
         for source in matches:
                 ns = []
