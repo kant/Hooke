@@ -4,7 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, wait
 
 class Hooke:
     def __init__(self, timb = None, lang = None):
-        # Inits
+        '''Inits'''
         if timb:
             self.timb = True
             self.times = []
@@ -13,23 +13,24 @@ class Hooke:
             self.extract = extract.ExtractC(lang)
 
     def tim(self):
+        '''Times Action'''
         if self.timb:
             self.times.append(time.time())
 
     def read_text(self, input):
-        #Read and tokenize
+        '''Read and tokenize'''
         self.read = search.read(input)
         self.norread = self.extract.normalize(self.read)
         self.tim()
 
     def search_texts(self):
-        #Divides and Search
+        '''Divides and Search'''
         searches = search.div(self.read)
         self.searchurls = search.search(searches)
         self.tim()
     
     def download_texts(self, threads = 10, max_time = 30, timeout = 10, pdfsupport = False):
-        #Download
+        '''Download texts from search'''
         nortexts = []
         with ThreadPoolExecutor(max_workers=threads) as executor:
             futures = []
@@ -42,12 +43,12 @@ class Hooke:
         self.tim()
 
     def compare_texts(self, length = 50, threshhold = 10):
-        #Compare
+        '''Compares the texts with the input'''
         self.norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
         self.tim()
 
     def order_results(self):
-        #Order Array
+        '''Orders Array fo matches'''
         matchs = self.norcom
         searchurls = self.searchurls
         m2 = order.source_sort(order.match_elements(matchs) , len(searchurls))
@@ -57,13 +58,13 @@ class Hooke:
         self.tim()
 
     def print_matches(self, results = None, searchurls = None):
-        #Prints
+        '''Prints'''
         print("\nMatches:")
         self.used = order.print_matches(self.matches, self.searchurls)
         self.tim()
 
     def Textual(self,input, lang = "english", length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
-        # Does everything
+        '''Does everything'''
         self.__init__(timb, lang)
         self.read_text(input)
         self.search_texts()
@@ -72,7 +73,7 @@ class Hooke:
         self.order_results()
 
     def time(self):
-        # Time
+        '''Prints Time'''
         print("\nTime taken:")
         for x in range(0, len(self.times) - 1):
             print(self.times[x+1]- self.times[x])

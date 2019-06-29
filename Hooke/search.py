@@ -2,7 +2,7 @@ import textract
 from google import google
 
 def read(input):
-    # Reads from file
+    '''Reads from file, if it doesn't work just uses input as return '''
     try:
         raw = textract.process(input)
         words = raw.decode().split()
@@ -13,7 +13,7 @@ def read(input):
 	    
 
 def div(words, every=16, length=32):
-    # Divides the text in google-friendly 32 word text in 16 word intervals
+    '''Divides the text in google-friendly 32 word text in 16 word intervals'''
     search = []
     count = 0
     run = True
@@ -29,7 +29,7 @@ def div(words, every=16, length=32):
     return search
 
 def search(searches, results=1):
-    # Searches divided text in google
+    ''' Searches divided text in google'''
     list = []
     for x in searches:
         for element in google.search(x, results):

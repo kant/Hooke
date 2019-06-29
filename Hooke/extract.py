@@ -14,14 +14,14 @@ class ExtractC():
         pass ## Posible Future Use
 
     def download_pdf(url):
-        #Download PDFs
+        '''Download PDFs (Not working properly)'''
         wget.download(url, "temp/temp.pdf", None)
         parsed = parser.from_file("temp/temp.pdf")['content']
         os.remove("temp/temp.pdf")
         return parsed.replace("\n\n","\n").replace("\n"," ").replace("\r","").replace("\t"," ").replace("  "," ")
 
     def text(self, url, timeout = 30, stika = True):
-        #Downloads text from the urls
+        '''Downloads text from the urls'''
         try:
             if ".pdf" in url and stika:
                 return download_pdf(url)
@@ -40,7 +40,7 @@ class ExtractC():
             return ""
 
     def normalize(self, x):
-        # Lowers, eliminates punctuation and strips text
+        '''Lowers, eliminates punctuation and strips text'''
         y = ""
         for z in x:
             y = y + z + " "
@@ -50,7 +50,7 @@ class ExtractC():
         return word_tokenize(output)
 
     def doall(self, url, timeout, pdfsupport):
-        # Does all (Makes it easier to multithread)
+        '''Does all (Makes it easier to multithread)'''
         raw = self.text(url, timeout, pdfsupport)
         nor = self.normalize(raw.split())
         return nor
