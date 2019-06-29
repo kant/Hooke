@@ -26,6 +26,7 @@ setup(name='pyHooke',
           'tika',
           'wget',
           'BeautifulSoup4',
+          'nltk',
           'textract',
           'Google-Search-API'
       ],
