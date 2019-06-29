@@ -48,7 +48,7 @@ class Hooke:
         self.tim()
 
     def order_results(self):
-        '''Orders Array fo matches'''
+        '''Orders Array of matches'''
         matchs = self.norcom
         searchurls = self.searchurls
         m2 = order.source_sort(order.match_elements(matchs) , len(searchurls))
