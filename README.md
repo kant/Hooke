@@ -7,7 +7,8 @@ It is yet to work properly
 Due to some errors, it is required to install textract and download 'punkt' manually.
 ```
 pip install git+https://github.com/oekshido/textract
-pip install pyHooke
+pip install pyHooke # Stable PyPi
+pip install git+https://github.com/oekshido/Hooke # Latest
 python
 >>import nltk
 >>nltk.download('punkt')
