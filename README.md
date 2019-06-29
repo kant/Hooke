@@ -6,7 +6,7 @@ It is yet to work properly
 ## Usage
 To run a simple textual check:
 ```python
-import Hooke
+from Hooke import Hooke
 
 hk = Hooke() #Inits
 hk.Textual(input="test/test.txt") #Runs the comparison
