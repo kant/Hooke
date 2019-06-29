@@ -1,11 +1,16 @@
 import textract
 from google import google
 
-def read(file, every=16, length=32):
+def read(input):
     # Reads from file
-    raw = textract.process(file)
-    words = raw.decode().split()
-    return words
+    try:
+        raw = textract.process(input)
+        words = raw.decode().split()
+        return words
+    except:
+        raw = input
+        return raw.split()
+	    
 
 def div(words, every=16, length=32):
     # Divides the text in google-friendly 32 word text in 16 word intervals
