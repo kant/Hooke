@@ -3,7 +3,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, wait
 
 class Hooke:
-    def __init__(self, timb = None, lang = None):
+    def __init__(self, timb = True, lang = "english"):
         '''Inits'''
         if timb:
             self.timb = True
