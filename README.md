@@ -25,4 +25,4 @@ hk.time() #Prints time taken
 ```
 
 ## Contributing
-Just commit and pull request
+Just pull request.
