@@ -1,5 +1,6 @@
 from fuzzysearch import find_near_matches
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer 
 
 
 def compare(input, texts,length=5, threshold=1):
@@ -14,5 +15,22 @@ def compare(input, texts,length=5, threshold=1):
                 matches.append((x,index,q))
     return matches
 
-def nlp_compare(input, texts):
-    pass
+class nlp:
+    def __init__(self, lang = "english"):
+        self.lem = WordNetLemmatizer()
+        self.stopwords = set(stopwords.words('english')) 
+
+
+    def preprocess(self, input):
+        output = []
+        for x in input:
+            if x not in self.stopwords:
+                output.append(self.lem.lemmatize(x))
+        return output
+    
+
+# from nltk.tokenize import word_tokenize 
+# x = nlp("english")
+# ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using")
+# y = x.preprocess(ink)
+# print(y)
