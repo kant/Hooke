@@ -16,12 +16,17 @@ def compare(input, texts,length=5, threshold=1):
     return matches
 
 class nlp:
+    '''Used for NLP
+    Inits with a language, picks stop words and then compares
+    '''
     def __init__(self, lang = "english"):
+        '''Inits to specific language'''
         self.lem = WordNetLemmatizer()
         self.stopwords = set(stopwords.words('english')) 
 
 
     def preprocess(self, input):
+        '''Stop word removal and preprocessing'''
         output = []
         dic = []
         for index, x in enumerate(input):
