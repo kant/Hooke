@@ -23,14 +23,17 @@ class nlp:
 
     def preprocess(self, input):
         output = []
-        for x in input:
+        dic = []
+        for index, x in enumerate(input):
             if x not in self.stopwords:
                 output.append(self.lem.lemmatize(x))
-        return output
+                dic.append(index)
+        return output, dic
     
 
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")
 # ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using")
-# y = x.preprocess(ink)
+# y, dic = x.preprocess(ink)
 # print(y)
+# print(dic)
