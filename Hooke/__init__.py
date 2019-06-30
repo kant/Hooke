@@ -3,14 +3,14 @@ import time
 from concurrent.futures import ThreadPoolExecutor, wait
 
 class Hooke:
-    def __init__(self, timb = True, lang = "english"):
+    def __init__(self, timb = False, lang = "english"):
         '''Inits'''
         if timb:
             self.timb = True
             self.times = []
             self.tim()
         if lang:
-            self.extract = extract.ExtractC(lang)
+            self.lang = lang
 
     def tim(self):
         '''Times Action'''
@@ -20,7 +20,7 @@ class Hooke:
     def read_text(self, input):
         '''Read and tokenize'''
         self.read = search.read(input)
-        self.norread = self.extract.normalize(self.read)
+        self.norread = extract.normalize(self.read)
         self.tim()
 
     def search_texts(self):
@@ -35,7 +35,7 @@ class Hooke:
         with ThreadPoolExecutor(max_workers=threads) as executor:
             futures = []
             for url in self.searchurls:
-                futures.append(executor.submit(self.extract.doall, url, timeout, pdfsupport))
+                futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
             wait(futures, timeout=max_time)
             for x in futures:
                 nortexts.append(x.result())

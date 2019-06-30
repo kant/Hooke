@@ -1,4 +1,6 @@
 from fuzzysearch import find_near_matches
+from nltk.corpus import stopwords
+
 
 def compare(input, texts,length=5, threshold=1):
     '''Uses fizzysearch´s Levenshtein search to find matches in n length'''
@@ -11,3 +13,6 @@ def compare(input, texts,length=5, threshold=1):
             for x in find_near_matches(q,t,max_l_dist=threshold):
                 matches.append((x,index,q))
     return matches
+
+def nlp_compare(input, texts):
+    pass
