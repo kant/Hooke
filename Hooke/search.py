@@ -5,11 +5,13 @@ def read(input):
     '''Reads from file, if it doesn't work just uses input as return '''
     try:
         raw = textract.process(input)
-    except:
-        raw = input
-        return raw.split()
-    words = raw.decode().split()
-    return words
+        words = raw.decode(errors = "ignore").split()
+        return words
+    except Exception as e:
+        if type(e).__name__ == "MissingFileError":
+            raw = input
+            return raw.split()
+        print(type(e).__name__)
 
 	    
 
