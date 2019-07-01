@@ -5,11 +5,12 @@ def read(input):
     '''Reads from file, if it doesn't work just uses input as return '''
     try:
         raw = textract.process(input)
-        words = raw.decode().split()
-        return words
     except:
         raw = input
         return raw.split()
+    words = raw.decode().split()
+    return words
+
 	    
 
 def div(words, every=16, length=32):
