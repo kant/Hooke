@@ -52,12 +52,30 @@ def shin_matches(shin1, shin2):
                 output.append((i, j))
     return output
 
-        
+def cluster(matches, gap, min):
+    '''Clusters matches based un Chebyshev distance, with gap as maximum distance and min as minimum cluster size'''
+    #Initial Clustering
+    temp = [[matches[0][1]]]
+    for x in matches[1:]:
+        for y in temp:
+            for z in y:
+                if max(abs(x[0] - z[0]), abs(x[1] - z[1])) < gap:
+                    y.append(x)
+                    break
+    #Cluster Merging
+    total = []
+    ins = []
+    for i, x in enumerate(temp):
+        for y in x:
+            total.append(y)
+            ins.append(i)
+    i = 0
+    #To be continued...
 
 from nltk.tokenize import word_tokenize 
 x = nlp("english")
 ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
 y, dic = x.preprocess(ink)
-y = shingle(y, 1)
+y = shingle(y, 4)
 print(y)
 print(shin_matches(y,y))
