@@ -55,13 +55,20 @@ def shin_matches(shin1, shin2):
 def cluster(matches, gap, min):
     '''Clusters matches based un Chebyshev distance, with gap as maximum distance and min as minimum cluster size'''
     #Initial Clustering
-    temp = [[matches[0][1]]]
+    temp = [[matches[0]]]
     for x in matches[1:]:
         for y in temp:
+            t = False
             for z in y:
                 if max(abs(x[0] - z[0]), abs(x[1] - z[1])) < gap:
-                    y.append(x)
+                    t = True
                     break
+            if t:
+                y.append(x)
+            else:
+                temp.append([x])
+                
+
     #Cluster Merging
     total = []
     ins = []
