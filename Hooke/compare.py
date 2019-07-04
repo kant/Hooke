@@ -44,7 +44,15 @@ class nlp:
             output.append(input[index:index+k])
         return output
     
-    
+    def shin_matches(shin1, shin2):
+        '''Returns a list of tuples of the matches'''
+        output = []
+        for i, x in enumerate(shin1):
+            for j, y in enumerate(shin2):
+                if x == y:
+                    output.append(i, j)
+        return output
+
         
 
 # from nltk.tokenize import word_tokenize 
