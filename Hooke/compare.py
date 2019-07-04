@@ -35,6 +35,17 @@ class nlp:
                 dic.append(index)
         return output, dic
     
+    def shingle(self, input, k):
+        '''Shingles the input in k length ngrams'''
+        if k == 1:
+            return input
+        output = []
+        for index in range(0, len(input)-k+1):
+            output.append(input[index:index+k])
+        return output
+    
+    
+        
 
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")
