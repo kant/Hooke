@@ -67,22 +67,28 @@ def cluster(matches, gap, min):
                 y.append(x)
             else:
                 temp.append([x])
-                
-
-    #Cluster Merging
-    total = []
-    ins = []
+    #Cluster duplicate check
+    merges = []
     for i, x in enumerate(temp):
         for y in x:
-            total.append(y)
-            ins.append(i)
-    i = 0
-    #To be continued...
+            for j, z in enumerate(temp[i+1:], i+1):
+                if (i,j) not in merges and y in z:
+                    merges.append((i,j))
+    print(merges)
+    #Cluster meging
+    output = []
+    exclude = []
+    for i, x in enumerate(merges):
+        output.append( temp[x[0]].extend([x for x in temp[x[1]] if x not in temp[x[0]]]) )
+        exclude.extend([x[0], x[1]])
+    output.extend([x for x in temp if x not in exclude])
+    return [x for x in output if len(x) >= min]
 
-from nltk.tokenize import word_tokenize 
-x = nlp("english")
-ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
-y, dic = x.preprocess(ink)
-y = shingle(y, 4)
-print(y)
-print(shin_matches(y,y))
+# from nltk.tokenize import word_tokenize 
+# x = nlp("english")
+# ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
+# y, dic = x.preprocess(ink)
+# y = shingle(y, 4)
+# print(y)
+# y = shin_matches(y,y)
+# print(cluster(y,3,3))
