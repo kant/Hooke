@@ -74,7 +74,6 @@ def cluster(matches, gap, min):
             for j, z in enumerate(temp[i+1:], i+1):
                 if (i,j) not in merges and y in z:
                     merges.append((i,j))
-    print(merges)
     #Cluster meging
     output = []
     exclude = []
