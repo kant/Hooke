@@ -12,7 +12,6 @@ def read(input):
             raw = input
             return raw.split()
         print(type(e).__name__)
-
 	    
 
 def div(words, every=16, length=32):

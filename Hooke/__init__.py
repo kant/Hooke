@@ -2,86 +2,105 @@ from . import search, extract, compare, order
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
 
-class Hooke:
-    def __init__(self, timb = False, lang = "english"):
-        '''Inits'''
-        if timb:
-            self.timb = True
-            self.times = []
-            self.tim()
-        if lang:
-            self.lang = lang
+def tim(times = None):
+    '''Times Action'''
+    if times:
+        times.append(time.time())
+    else:
+        times = []
+        times.append(time.time())
+        return times
 
-    def tim(self):
-        '''Times Action'''
-        if self.timb:
-            self.times.append(time.time())
+def read_file(input):
+    '''Read and tokenize file using textract
+    Takes a file as input, and outputs raw and normalized texts
+    If it fails to read, it just runs "read_text"
+    '''
+    read = search.read(input)
+    norread = extract.normalize(read)
+    return read, norread
 
-    def read_text(self, input):
-        '''Read and tokenize'''
-        self.read = search.read(input)
-        self.norread = extract.normalize(self.read)
-        self.tim()
+def read_text(input):
+    '''Reads and tokenizes text
+    Takes a text as input, and outputs raw and normalized texts 
+    '''
+    read = input.split()
+    norread = extract.normalize(read)
+    return read, norread
 
-    def search_texts(self):
-        '''Divides and Search'''
-        searches = search.div(self.read)
-        self.searchurls = search.search(searches)
-        self.tim()
-    
-    def download_texts(self, threads = 10, max_time = 30, timeout = 10, pdfsupport = False):
-        '''Download texts from search'''
-        nortexts = []
-        with ThreadPoolExecutor(max_workers=threads) as executor:
-            futures = []
-            for url in self.searchurls:
-                futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
-            wait(futures, timeout=max_time)
-            for x in futures:
-                nortexts.append(x.result())
-        self.nortexts = nortexts
-        self.tim()
+def divide(read):
+    '''Divides text, output list of searches'''
+    searches = search.div(read)
+    return queries
 
-    def compare_texts(self, length = 50, threshhold = 10):
-        '''Compares the texts with the input'''
-        self.norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
-        self.tim()
+def search(queries)
+    '''Searches using google'''
+    sources = search.search(searches)
+    return sources
 
-    def order_results(self):
-        '''Orders Array of matches'''
-        matchs = self.norcom
-        searchurls = self.searchurls
-        m2 = order.source_sort(order.match_elements(matchs) , len(searchurls))
-        m3 = order.check_merges(m2)
-        m4 = order.separate_matches(m3)
-        self.matches = order.join_matches(m4)
-        self.tim()
+def download_texts(sources, threads = 10, max_time = 30, timeout = 10, pdfsupport = False):
+    '''Download texts from search using multithreading
+    Returns normalized set of texts. The indices match their source
+    '''
+    nortexts = []
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        futures = []
+        for url in sources:
+            futures.append(executor.submit(extract.doall, url, timeout, pdfsupport))
+        wait(futures, timeout=max_time)
+        for x in futures:
+            nortexts.append(x.result())
+    return nortexts
 
-    def print_matches(self, results = None, searchurls = None):
-        '''Prints'''
-        print("\nMatches:")
-        self.used = order.print_matches(self.matches, self.searchurls)
-        self.tim()
+def levenshtein_compare(norread, nortexts, length = 50, threshhold = 10):
+    '''Compares the texts with the input
+    Returns unordered set of matches
+    '''
+    norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
+    return norcom
 
-    def Textual(self,input, lang = "english", length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
-        '''Does everything'''
-        self.__init__(timb, lang)
-        self.read_text(input)
-        self.search_texts()
-        self.download_texts(threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
-        self.compare_texts(length = length, threshhold = threshhold)
-        self.order_results()
+def order_results(norcom, sources):
+    '''Orders Array of matches
+    Returns ordered
+    '''
+    matchs = norcom
+    sources = sources
+    m2 = order.source_sort(order.match_elements(matchs) , len(sources))
+    m3 = order.check_merges(m2)
+    m4 = order.separate_matches(m3)
+    matches = order.join_matches(m4)
+    return matches
 
-    def time(self):
-        '''Prints Time'''
-        print("\nTime taken:")
-        for x in range(0, len(self.times) - 1):
-            print(self.times[x+1]- self.times[x])
-        print("Total:", self.times[-1] - self.times[0])
+def print_matches(matches, sources, used = None):
+    '''Prints
+    Returns a list of indices of used sources
+    '''
+    if not used:
+        used = []
+    print("\nMatches:")
+    used = order.print_matches(matches, sources, used)
+    return used
 
+def Textual(input, print = True, length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
+    '''Does everything'''
+    norread, read = read_file(input)
+    queries = divide(read)
+    sources = search(queries)
+    nortexts = download_texts(sources, threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
+    norcom = levenshtein_compare(norread, nortexts,length = length, threshhold = threshhold)
+    matches = order_results(norcom, sources)
+    if print:
+        print_matches(matches, sources)
+    return matches
+
+def print_time(times):
+    '''Prints Time'''
+    print("\nTime taken:")
+    for x in range(0, len(times) - 1):
+        print(times[x+1]- times[x])
+    print("Total:", times[-1] - times[0])
 
 if __name__ == "__main__":
-    hk = Hooke()
-    hk.Textual()
-    hk.print_matches()
-    hk.time()
+    times = tim()
+    Textual("Hooke Written in python, and based on quite a few requirements It is yet to work properly")
+    print_time(times)
