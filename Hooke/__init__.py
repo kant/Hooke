@@ -11,31 +11,31 @@ def tim(times = None):
         times.append(time.time())
         return times
 
-def read_file(input):
+def read_file(file):
     '''Read and tokenize file using textract
     Takes a file as input, and outputs raw and normalized texts
     If it fails to read, it just runs "read_text"
     '''
-    read = search.read(input)
+    read = search.read(file)
     norread = extract.normalize(read)
     return read, norread
 
-def read_text(input):
+def read_text(text):
     '''Reads and tokenizes text
     Takes a text as input, and outputs raw and normalized texts 
     '''
-    read = input.split()
+    read = text.split()
     norread = extract.normalize(read)
     return read, norread
 
 def divide(read):
     '''Divides text, output list of searches'''
-    searches = search.div(read)
+    queries = search.div(read)
     return queries
 
-def search(queries)
+def search_texts(queries):
     '''Searches using google'''
-    sources = search.search(searches)
+    sources = search.search(queries)
     return sources
 
 def download_texts(sources, threads = 10, max_time = 30, timeout = 10, pdfsupport = False):
@@ -52,11 +52,11 @@ def download_texts(sources, threads = 10, max_time = 30, timeout = 10, pdfsuppor
             nortexts.append(x.result())
     return nortexts
 
-def levenshtein_compare(norread, nortexts, length = 50, threshhold = 10):
+def levenshtein_compare(norread, nortexts, length = 30, threshhold = 7):
     '''Compares the texts with the input
     Returns unordered set of matches
     '''
-    norcom = compare.compare(self.norread, self.nortexts, threshold=threshhold,length=length)
+    norcom = compare.compare(norread, nortexts, threshold=threshhold,length=length)
     return norcom
 
 def order_results(norcom, sources):
@@ -81,15 +81,15 @@ def print_matches(matches, sources, used = None):
     used = order.print_matches(matches, sources, used)
     return used
 
-def Textual(input, print = True, length = 50, threshhold = 10, timb = True, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
+def Textual(input, verbose = True, length = 50, threshhold = 10, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
     '''Does everything'''
-    norread, read = read_file(input)
+    read, norread = read_file(input)
     queries = divide(read)
-    sources = search(queries)
+    sources = search_texts(queries)
     nortexts = download_texts(sources, threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
     norcom = levenshtein_compare(norread, nortexts,length = length, threshhold = threshhold)
     matches = order_results(norcom, sources)
-    if print:
+    if verbose:
         print_matches(matches, sources)
     return matches
 
