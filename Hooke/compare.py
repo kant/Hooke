@@ -52,7 +52,7 @@ def shin_matches(shin1, shin2):
                 output.append((i, j))
     return output
 
-def cluster(matches, gap, min):
+def cluster_old(matches, gap, min):
     '''Clusters matches based un Chebyshev distance, with gap as maximum distance and min as minimum cluster size'''
     #Initial Clustering
     temp = [[matches[0]]]
@@ -83,6 +83,40 @@ def cluster(matches, gap, min):
     output.extend([x for x in temp if x not in exclude])
     return [x for x in output if len(x) >= min]
 
+def cluster(matches, gap, min):
+    '''Much improved version of clustering'''
+    clusters = []
+    for x in matches:
+        merge = False
+        for i, y in enumerate(clusters):
+            for z in y:
+                if max(abs(x[0]-z[0]), abs(x[1] - z[1])) <= gap:
+                    if not merge:
+                        y.append(x)
+                        merge = i
+                    else:
+                        clusters[merge].extend([k for k in y if k not in clusters[merge]])
+                        y = []
+                    break
+        if not merge:
+            clusters.append([x])
+    return [x for x in clusters if len(x) >= min]
+
+def get_dist(matches):
+    output = []
+    for x in matches:
+        dic = []
+        for y in x:
+            min_dist = 256
+            for z in x:
+                if y != z and max(abs(y[0]-z[0]), abs(y[1] - z[1])) < min_dist:
+                    min_dist = max(abs(y[0]-z[0]), abs(y[1] - z[1]))
+            dic.append(min_dist)
+        output.append(dic)
+    return output
+
+     
+
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")
 # ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
@@ -90,4 +124,9 @@ def cluster(matches, gap, min):
 # y = shingle(y, 4)
 # print(y)
 # y = shin_matches(y,y)
-# print(cluster(y,3,3))
+# y = [
+#     (0,3),(3,2),(5,3),(3,5),(7,5),(43,57),(42,55),(40,56),(100,101)
+# ]
+# x = cluster(y,3,3)
+# z = get_dist(x)
+# print(x,z)
