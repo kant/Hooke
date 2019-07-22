@@ -100,6 +100,20 @@ def print_time(times):
         print(times[x+1]- times[x])
     print("Total:", times[-1] - times[0])
 
+class nlp(compare.nlp):
+    '''Full inheritance from compare.nlp'''
+
+def shingle(input,k):
+    '''Shingle the input in k length ngrams'''
+    output = compare.shingle(input, k)
+    return output
+
+def shingle_compare(input):
+    '''Uses Chebyshev distance to compare the texts
+    Takes input, the texts, the gap between matches, and the minimum size fo the clusters.
+    Returns set of matches and a dictionary of the distance of each point
+    '''
+
 if __name__ == "__main__":
     times = tim()
     Textual("Hooke Written in python, and based on quite a few requirements It is yet to work properly")

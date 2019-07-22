@@ -103,6 +103,7 @@ def cluster(matches, gap, min):
     return [x for x in clusters if len(x) >= min]
 
 def get_dist(matches):
+    '''Gets distance to the closest match of every point'''
     output = []
     for x in matches:
         dic = []
@@ -115,7 +116,8 @@ def get_dist(matches):
         output.append(dic)
     return output
 
-     
+def de_preprocess(input, preprocessed, dict):
+    '''Takes the preprocessed bit and uses the dictionary to find where it is in the input'''
 
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")
