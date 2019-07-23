@@ -100,7 +100,7 @@ def print_time(times):
         print(times[x+1]- times[x])
     print("Total:", times[-1] - times[0])
 
-class nlp(compare.nlp):
+class Nlp(compare.nlp):
     '''Full inheritance from compare.nlp'''
 
 def shingle(input,k):
@@ -113,6 +113,20 @@ def shingle_compare(input):
     Takes input, the texts, the gap between matches, and the minimum size fo the clusters.
     Returns set of matches and a dictionary of the distance of each point
     '''
+    
+
+def pre_search(file, stopwords=None):
+    '''Makes a google search of the text without stop words'''
+    read = search.read(file)
+    read = extract.normalize(read)
+    if not stopwords:
+        stopwords = Nlp().stopwords
+    read = [x for x in read if x not in stopwords]
+    output = ""
+    for x in read:
+        output = output + " " + x
+    output = divide(output)
+    return search_texts(output)
 
 if __name__ == "__main__":
     times = tim()

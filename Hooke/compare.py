@@ -21,7 +21,7 @@ class nlp:
     def __init__(self, lang = "english"):
         '''Inits to specific language'''
         self.stem = SnowballStemmer(lang)
-        self.stopwords = set(stopwords.words('english')) 
+        self.stopwords = set(stopwords.words(lang)) 
 
 
     def preprocess(self, input):
@@ -116,8 +116,6 @@ def get_dist(matches):
         output.append(dic)
     return output
 
-def de_preprocess(input, preprocessed, dict):
-    '''Takes the preprocessed bit and uses the dictionary to find where it is in the input'''
 
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")

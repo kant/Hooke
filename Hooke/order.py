@@ -74,3 +74,6 @@ def join_matches(matches):
                         ns = None
                 output.append(ns)
         return output
+
+def de_preprocess():
+        '''Takes the preprocessed match and makes it normal'''
