@@ -84,7 +84,7 @@ def cluster_old(matches, gap, min):
     return [x for x in output if len(x) >= min]
 
 def cluster(matches, gap, min):
-    '''Much improved version of clustering'''
+    '''Much improved version of clustering (cluster_old)'''
     clusters = []
     for x in matches:
         merge = False
