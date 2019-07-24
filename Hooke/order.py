@@ -75,5 +75,9 @@ def join_matches(matches):
                 output.append(ns)
         return output
 
-def de_preprocess():
-        '''Takes the preprocessed match and makes it normal'''
+def de_preprocess(matches, dict1, input1, dict2, values):
+        '''Takes the preprocessed match and makes it normal, and takes both dictionaries'''
+        for x in matches:
+                start = min([y[0] for y in matches])
+                end = max([y[0] for y in matches])
+        return

@@ -1,4 +1,4 @@
-from . import search, extract, compare, order
+from Hooke import search, extract, compare, order
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
 
@@ -89,6 +89,7 @@ def Textual(input, verbose = True, length = 50, threshhold = 10, threads = 15, m
     nortexts = download_texts(sources, threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
     norcom = levenshtein_compare(norread, nortexts,length = length, threshhold = threshhold)
     matches = order_results(norcom, sources)
+    print(nortexts+"\n\n"+norcom+"\n\n"+queries+"\n\n")
     if verbose:
         print_matches(matches, sources)
     return matches
@@ -114,7 +115,6 @@ def shingle_compare(input):
     Returns set of matches and a dictionary of the distance of each point
     '''
     
-
 def pre_search(file, stopwords=None):
     '''Makes a google search of the text without stop words'''
     read = search.read(file)
