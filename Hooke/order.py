@@ -75,9 +75,16 @@ def join_matches(matches):
                 output.append(ns)
         return output
 
-def de_preprocess(matches, dict1, input1, dict2, values):
+def de_preprocess(matches, dic, dist):
         '''Takes the preprocessed match and makes it normal, and takes both dictionaries'''
-        for x in matches:
-                start = min([y[0] for y in matches])
-                end = max([y[0] for y in matches])
-        return
+        output=[]
+        for i, cluster in enumerate(matches):
+                newcluster = []
+                for x in enumerate(cluster):
+                        newcluster.append(dic[x[0]])
+                start = newcluster[0]
+                end = newcluster[-1]
+                dens = [None]* (start-end)
+                for j,x in newcluster:
+                        dens[x-start] = dist[j]
+                

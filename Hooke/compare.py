@@ -117,16 +117,16 @@ def get_dist(matches):
     return output
 
 
-# from nltk.tokenize import word_tokenize 
-# x = nlp("english")
-# ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
-# y, dic = x.preprocess(ink)
-# y = shingle(y, 4)
-# print(y)
-# y = shin_matches(y,y)
-# y = [
-#     (0,3),(3,2),(5,3),(3,5),(7,5),(43,57),(42,55),(40,56),(100,101)
-# ]
-# x = cluster(y,3,3)
-# z = get_dist(x)
-# print(x,z)
+from nltk.tokenize import word_tokenize 
+x = nlp("english")
+ink = word_tokenize("This is how we are making our processed content more efficient by removing words that do not contribute to any future operations This article is contributed by Pratima Upadhyay If you like GeeksforGeeks and would like to contribute you can also write an article using".lower())
+y, dic = x.preprocess(ink)
+y = shingle(y, 4)
+print(y, dic)
+y = shin_matches(y,y)
+y = [
+    (0,3),(3,2),(5,3),(3,5),(7,5),(43,57),(42,55),(40,56),(100,101)
+]
+x = cluster(y,3,3)
+z = get_dist(x)
+print(x,z)
