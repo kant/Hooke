@@ -87,4 +87,23 @@ def de_preprocess(matches, dic, dist):
                 dens = [None]* (start-end)
                 for j,x in newcluster:
                         dens[x-start] = dist[j]
-                
+                output.append(dens)
+        return output
+
+def bilinear(dens):
+        for x in dens:
+                points = [i for i, y in enumerate(x) if y]
+                pairs = []
+                y = None
+                for z in points:
+                        if y:
+                                points.append(y,x)
+                        y = x
+                for y in pairs:
+                        interval = round(  (dens[y[1]]-dens[y[0]]) / (y[1]- y[0])  ,2)
+                        added = x[y[0]]
+                        if y[1]-y[0] > 1:
+                                for z in range(1, y[1]-y[0]-1):
+                                        added += interval
+                                        x[y[0]+z] = added
+        return dens
