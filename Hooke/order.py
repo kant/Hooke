@@ -1,3 +1,34 @@
+class Match:
+        '''Main class of the match
+        Variables
+        start = Start of the match
+        end = End of the match
+        density = A depth map of the distance of the match
+        s_start = The start of the match from the source
+        s_end = The end of the match from the source
+        mean = Find average distance of the match
+        source = Source of the Match
+        '''
+        density = None
+        s_start = None
+        s_end = None
+        source = None
+
+        def __init__(self, start, end):
+                self.start = start
+                self.end = end
+                
+        def mean(self):
+                if not self.density:
+                        print("Warning: No density specified, Skipping...")
+                        return
+                x = 0
+                for y in self.density:
+                        x += y
+                x = x/len(self.density)
+                return x
+
+
 def match_elements(matches):
     '''Extract match elements'''
     output = []
@@ -75,19 +106,21 @@ def join_matches(matches):
                 output.append(ns)
         return output
 
-def de_preprocess(matches, dic, dist):
+def de_preprocess(matches, dic1, dist, dic2):
         '''Takes the preprocessed match and makes it normal, and takes both dictionaries'''
         output=[]
         for i, cluster in enumerate(matches):
                 newcluster = []
                 for x in enumerate(cluster):
-                        newcluster.append(dic[x[0]])
+                        newcluster.append(dic1[x[0]])
                 start = newcluster[0]
                 end = newcluster[-1]
+                mstart = dic2[cluster[0][1]]
+                mend = dic2[cluster[-1][1]]
                 dens = [None]* (start-end)
                 for j,x in newcluster:
                         dens[x-start] = dist[j]
-                output.append(dens)
+                output.append(start, end, dens, mstart, mend)
         return output
 
 def bilinear(dens):
@@ -107,3 +140,11 @@ def bilinear(dens):
                                         added += interval
                                         x[y[0]+z] = added
         return dens
+
+def shingle_final(input, dens):
+        output = []
+        for x in input:
+                y = Match(start = x[0], end = x[1])
+                y.density = x[2]
+                y.s_start = x[3]
+                y.s_end = x[4]
