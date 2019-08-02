@@ -120,8 +120,8 @@ def de_preprocess(matches, dic1, dist, dic2):
                 dens = [None]* (start-end)
                 for j,x in newcluster:
                         dens[x-start] = dist[j]
-                output.append(start, end, dens, mstart, mend)
-        return output
+                output.append(start, end, mstart, mend)
+        return output, dens
 
 def bilinear(dens):
         for x in dens:
@@ -145,6 +145,8 @@ def shingle_final(input, dens):
         output = []
         for x in input:
                 y = Match(start = x[0], end = x[1])
-                y.density = x[2]
-                y.s_start = x[3]
-                y.s_end = x[4]
+                y.s_start = x[2]
+                y.density = dens
+                y.s_end = x[3]
+                output.append(y)
+        return output

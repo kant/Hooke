@@ -114,7 +114,17 @@ def shingle_compare(input):
     Takes input, the texts, the gap between matches, and the minimum size fo the clusters.
     Returns set of matches and a dictionary of the distance of each point
     '''
-    
+    output = compare.shin_matches(input)
+    output = compare.cluster(input)
+    dist = compare.get_dist(output)
+    return output, dist
+
+def shingle_order(input, dic1, dist, dic2):
+    output, dens = order.de_preprocess(input, dic1, dist, dic2)
+    dens = order.bilinear(dens)
+    output = order.shingle_final(output, dens)
+    return output
+
 def pre_search(file, stopwords=None):
     '''Makes a google search of the text without stop words'''
     read = search.read(file)
