@@ -124,6 +124,7 @@ def de_preprocess(matches, dic1, dist, dic2):
         return output, dens
 
 def bilinear(dens):
+        '''Linearly aliases the match accuracy for matches between existing ones'''
         for x in dens:
                 points = [i for i, y in enumerate(x) if y]
                 pairs = []
@@ -142,6 +143,7 @@ def bilinear(dens):
         return dens
 
 def shingle_final(input, dens):
+        '''Makes the matches into the Match class'''
         output = []
         for x in input:
                 y = Match(start = x[0], end = x[1])

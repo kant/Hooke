@@ -120,6 +120,7 @@ def shingle_compare(input):
     return output, dist
 
 def shingle_order(input, dic1, dist, dic2):
+    '''Does the ordering'''
     output, dens = order.de_preprocess(input, dic1, dist, dic2)
     dens = order.bilinear(dens)
     output = order.shingle_final(output, dens)
