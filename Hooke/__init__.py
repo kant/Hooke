@@ -82,7 +82,7 @@ def print_matches(matches, sources, used = None):
     return used
 
 def Textual(input, verbose = True, length = 50, threshhold = 10, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
-    '''Does everything'''
+    '''Does a textual search of the input'''
     read, norread = read_file(input)
     queries = divide(read)
     sources = search_texts(queries)
@@ -126,18 +126,27 @@ def shingle_order(input, dic1, dist, dic2):
     output = order.shingle_final(output, dens)
     return output
 
-def pre_search(file, stopwords=None):
+def pre_search(norread, stopwords=None):
     '''Makes a google search of the text without stop words'''
-    read = search.read(file)
-    read = extract.normalize(read)
     if not stopwords:
         stopwords = Nlp().stopwords
-    read = [x for x in read if x not in stopwords]
+    norread = [x for x in norread if x not in stopwords]
     output = ""
-    for x in read:
+    for x in norread:
         output = output + " " + x
     output = divide(output)
     return search_texts(output)
+
+def Shingled(input, lang, min, gap, shingle_size, threads = 10, pdfsupport = True):
+    '''Does a complete search of the input using nlp'''
+    nlp = Nlp(lang)
+    read, norread = read_file(input)
+    sources = search(divide(read))
+    sources.append([x for x in pre_search(norread, Nlp.stopwords) if x not in sources])
+    nortexts = download_texts(sources, threads = threads, pdfsupport = pdfsupport)
+    preread = nlp.preprocess(norread)
+    pretexts = nlp.bulk_preprocess(nortexts, threads = threads)
+
 
 if __name__ == "__main__":
     times = tim()

@@ -1,6 +1,8 @@
 from fuzzysearch import find_near_matches
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+from concurrent.futures import ThreadPoolExecutor, wait
+
 
 def compare(input, texts,length=5, threshold=1):
     '''Uses fizzysearch´s Levenshtein search to find matches in n length'''
@@ -34,6 +36,17 @@ class nlp:
                 dic.append(index)
         return output, dic
     
+    def bulk_preprocess(self, input, threads):
+        output = []
+        with ThreadPoolExecutor(max_workers=threads) as executor:
+            futures = []
+            for x in input:
+                futures.append(executor.submit(self.preprocess, x))
+            wait(futures)
+            for x in futures:
+                output.append(x.result())
+        return output
+
 def shingle(input, k):
     '''Shingles the input in k length ngrams'''
     if k < 2:
