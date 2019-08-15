@@ -81,7 +81,7 @@ def print_matches(matches, sources, used = None):
     used = order.print_matches(matches, sources, used)
     return used
 
-def Textual(input, verbose = True, length = 50, threshhold = 10, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
+def Textual(input, verbose = True, length = 20, threshhold = 5, threads = 15, max_time = 30, timeout = 10, pdfsupport = True):
     '''Does a textual search of the input'''
     read, norread = read_file(input)
     queries = divide(read)
@@ -89,7 +89,6 @@ def Textual(input, verbose = True, length = 50, threshhold = 10, threads = 15, m
     nortexts = download_texts(sources, threads = threads, max_time = max_time, timeout = timeout, pdfsupport = pdfsupport)
     norcom = levenshtein_compare(norread, nortexts,length = length, threshhold = threshhold)
     matches = order_results(norcom, sources)
-    print(nortexts+"\n\n"+norcom+"\n\n"+queries+"\n\n")
     if verbose:
         print_matches(matches, sources)
     return matches
@@ -150,5 +149,5 @@ def Shingled(input, lang, min, gap, shingle_size, threads = 10, pdfsupport = Tru
 
 if __name__ == "__main__":
     times = tim()
-    Textual("Hooke Written in python, and based on quite a few requirements It is yet to work properly")
+    Textual("In information theory, linguistics and computer science, the Levenshtein distance is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other")
     print_time(times)
