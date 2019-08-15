@@ -23,8 +23,7 @@ class nlp:
     def __init__(self, lang = "english"):
         '''Inits to specific language'''
         self.stem = SnowballStemmer(lang)
-        self.stopwords = set(stopwords.words(lang)) 
-
+        self.stopwords = set(stopwords.words(lang))
 
     def preprocess(self, input):
         '''Stop word removal and preprocessing'''
@@ -34,9 +33,10 @@ class nlp:
             if x not in self.stopwords:
                 output.append(self.stem.stem(x))
                 dic.append(index)
-        return output, dic
-    
-    def bulk_preprocess(self, input, threads):
+        return output, dic 
+
+    def bulkpreprocess(self, input, threads):
+        '''Bulk multithreaded preprocess function'''
         output = []
         with ThreadPoolExecutor(max_workers=threads) as executor:
             futures = []
@@ -46,6 +46,15 @@ class nlp:
             for x in futures:
                 output.append(x.result())
         return output
+
+    def addstopword(self, stopwords):
+        '''Add a word or list to stopwords'''
+        if isinstance(stopwords, string):
+            self.stopwords.append(stopwords)
+        elif isinstance(stopwords, list):
+            self.stopwords.extend(stopwords)
+        else:
+            pass
 
 def shingle(input, k):
     '''Shingles the input in k length ngrams'''

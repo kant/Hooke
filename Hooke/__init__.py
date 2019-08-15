@@ -100,9 +100,6 @@ def print_time(times):
         print(times[x+1]- times[x])
     print("Total:", times[-1] - times[0])
 
-class Nlp(compare.nlp):
-    '''Full inheritance from compare.nlp'''
-
 def shingle(input,k):
     '''Shingle the input in k length ngrams'''
     output = compare.shingle(input, k)
@@ -138,16 +135,17 @@ def pre_search(norread, stopwords=None):
 
 def Shingled(input, lang, min, gap, shingle_size, threads = 10, pdfsupport = True):
     '''Does a complete search of the input using nlp'''
-    nlp = Nlp(lang)
+    nnlp = compare.nlp(lang)
     read, norread = read_file(input)
-    sources = search(divide(read))
-    sources.append([x for x in pre_search(norread, Nlp.stopwords) if x not in sources])
+    sources = search_texts(divide(read))
+    sources.append([x for x in pre_search(norread, nnlp.stopwords) if x not in sources])
     nortexts = download_texts(sources, threads = threads, pdfsupport = pdfsupport)
-    preread = nlp.preprocess(norread)
-    pretexts = nlp.bulk_preprocess(nortexts, threads = threads)
-
+    preread = nnlp.preprocess(norread)
+    pretexts = nnlp.bulkpreprocess(nortexts, threads = threads)
+    print(pretexts)
 
 if __name__ == "__main__":
     times = tim()
-    Textual("In information theory, linguistics and computer science, the Levenshtein distance is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other")
+    #Textual("In information theory, linguistics and computer science, the Levenshtein distance is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other")
+    Shingled("In information theory, linguistics and computer science, the Levenshtein distance is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other","english",3,3,2)
     print_time(times)
