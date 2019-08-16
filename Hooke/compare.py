@@ -16,7 +16,7 @@ def compare(input, texts,length=5, threshold=1):
                 matches.append((x,index,q))
     return matches
 
-class nlp:
+class NaturalLP():
     '''Used for NLP
     Inits with a language, picks stop words for comparison
     '''
@@ -38,10 +38,11 @@ class nlp:
     def bulkpreprocess(self, input, threads):
         '''Bulk multithreaded preprocess function'''
         output = []
+        pre = self.preprocess
         with ThreadPoolExecutor(max_workers=threads) as executor:
             futures = []
             for x in input:
-                futures.append(executor.submit(self.preprocess, x))
+                futures.append(executor.submit(pre, x))
             wait(futures)
             for x in futures:
                 output.append(x.result())
@@ -49,10 +50,10 @@ class nlp:
 
     def addstopword(self, stopwords):
         '''Add a word or list to stopwords'''
-        if isinstance(stopwords, string):
-            self.stopwords.append(stopwords)
+        if isinstance(stopwords, str):
+            self.stopwords.add(stopwords)
         elif isinstance(stopwords, list):
-            self.stopwords.extend(stopwords)
+            self.stopwords.update(set(stopwords))
         else:
             pass
 
@@ -74,7 +75,7 @@ def shin_matches(shin1, shin2):
                 output.append((i, j))
     return output
 
-def cluster_old(matches, gap, min):
+def cluster_old(matches, gap, miin):
     '''Clusters matches based un Chebyshev distance, with gap as maximum distance and min as minimum cluster size'''
     #Initial Clustering
     temp = [[matches[0]]]
@@ -103,9 +104,9 @@ def cluster_old(matches, gap, min):
         output.append( temp[x[0]].extend([x for x in temp[x[1]] if x not in temp[x[0]]]) )
         exclude.extend([x[0], x[1]])
     output.extend([x for x in temp if x not in exclude])
-    return [x for x in output if len(x) >= min]
+    return [x for x in output if len(x) >= miin]
 
-def cluster(matches, gap, min):
+def cluster(matches, gap, miin):
     '''Much improved version of clustering (cluster_old)'''
     clusters = []
     for x in matches:
@@ -122,7 +123,7 @@ def cluster(matches, gap, min):
                     break
         if not merge:
             clusters.append([x])
-    return [x for x in clusters if len(x) >= min]
+    return [x for x in clusters if len(x) >= miin]
 
 def get_dist(matches):
     '''Gets distance to the closest match of every point'''
@@ -137,7 +138,6 @@ def get_dist(matches):
             dic.append(min_dist)
         output.append(dic)
     return output
-
 
 # from nltk.tokenize import word_tokenize 
 # x = nlp("english")

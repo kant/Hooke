@@ -1,4 +1,5 @@
-from Hooke import search, extract, compare, order
+from Hooke import search, extract, order, compare
+from .compare import NaturalLP
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
 
@@ -105,23 +106,6 @@ def shingle(input,k):
     output = compare.shingle(input, k)
     return output
 
-def shingle_compare(input):
-    '''Uses Chebyshev distance to compare the texts
-    Takes input, the texts, the gap between matches, and the minimum size fo the clusters.
-    Returns set of matches and a dictionary of the distance of each point
-    '''
-    output = compare.shin_matches(input)
-    output = compare.cluster(input)
-    dist = compare.get_dist(output)
-    return output, dist
-
-def shingle_order(input, dic1, dist, dic2):
-    '''Does the ordering'''
-    output, dens = order.de_preprocess(input, dic1, dist, dic2)
-    dens = order.bilinear(dens)
-    output = order.shingle_final(output, dens)
-    return output
-
 def pre_search(norread, stopwords=None):
     '''Makes a google search of the text without stop words'''
     if not stopwords:
@@ -133,16 +117,39 @@ def pre_search(norread, stopwords=None):
     output = divide(output)
     return search_texts(output)
 
-def Shingled(input, lang, min, gap, shingle_size, threads = 10, pdfsupport = True):
+def full_shin_comparison(input1, input2, dic1, dic2, shingle_size, gap, miin):
+    input1 = compare.shingle(input1, shingle_size)
+    input2 = compare.shingle(input2, shingle_size)
+    matches = compare.shin_matches(inpu1, input2)
+    matches = compare.cluster(matches, gap, miin)
+    dist = compare.get_dist(matches)
+    matches, dist = order.de_preprocess(matches, dic1, dic2, dist)
+    dist = order.bilinear(dist)
+    output = order.shingle_final(matches, dist)
+    return output
+
+def Shingled(input, lang, miin, gap, shingle_size, threads = 10, pdfsupport = True):
     '''Does a complete search of the input using nlp'''
-    nnlp = compare.nlp(lang)
+    nnlp = NaturalLP(lang)
     read, norread = read_file(input)
     sources = search_texts(divide(read))
     sources.append([x for x in pre_search(norread, nnlp.stopwords) if x not in sources])
     nortexts = download_texts(sources, threads = threads, pdfsupport = pdfsupport)
+    nnlp.addstopword("hello")
     preread = nnlp.preprocess(norread)
     pretexts = nnlp.bulkpreprocess(nortexts, threads = threads)
-    print(pretexts)
+    output = []
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        futures = []
+        for text in pretexts:
+            futures.append(executor.submit(full_shin_comparison, preread[0], text[0], preread[1], text[1], shingle_size, gap, miin))
+        wait(futures, timeout=max_time)
+        for x in futures:
+            output.append(x.result())
+    for i, x in enumerate(output):
+        x.source = sources(i)
+    return output
+    
 
 if __name__ == "__main__":
     times = tim()

@@ -106,7 +106,7 @@ def join_matches(matches):
                 output.append(ns)
         return output
 
-def de_preprocess(matches, dic1, dist, dic2):
+def de_preprocess(matches, dic1, dic2, dist):
         '''Takes the preprocessed match and makes it normal, and takes both dictionaries'''
         output=[]
         for i, cluster in enumerate(matches):
