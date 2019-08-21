@@ -119,7 +119,6 @@ def de_preprocess(matches, dic1, dic2, dist):
                 mend = dic2[cluster[-1][1]]
                 dens = [None]*(1+end-start) #Where None means not yet known
                 for j,x in enumerate(newcluster):
-                        print(x-start, i,j)
                         dens[x-start] = dist[i][j]
                 output.append((start, end, mstart, mend, dens))
         return output
@@ -127,20 +126,17 @@ def de_preprocess(matches, dic1, dic2, dist):
 def bilinear(dens):
         '''Linearly aliases the match accuracy for matches between existing ones'''
         for x in dens:
-                points = [i for i, y in enumerate(x) if y]
+                points = [i for i, y in enumerate(x) if y != None]
                 pairs = []
-                y = None
-                for z in points:
-                        if y:
-                                points.append((y,x))
-                        y = x
+                for y in range(0,len(points)-1):
+                        pairs.append((points[y], points[y+1]))
                 for y in pairs:
-                        interval = round(  (dens[y[1]]-dens[y[0]]) / (y[1]- y[0])  ,2)
+                        interval = (x[y[1]]-x[y[0]]) / (y[1]- y[0])
                         added = x[y[0]]
                         if y[1]-y[0] > 1:
-                                for z in range(1, y[1]-y[0]-1):
+                                for z in range(1, y[1]-y[0]):
                                         added += interval
-                                        x[y[0]+z] = added
+                                        x[y[0]+z] = round(added)
         return dens
 
 def shingle_final(input, dens):
