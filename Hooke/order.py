@@ -1,3 +1,33 @@
+class Match:
+        '''Main class of the match
+        Variables
+        start = Start of the match
+        end = End of the match
+        density = A depth map of the distance of the match
+        s_start = The start of the match from the source
+        s_end = The end of the match from the source
+        mean = Find average distance of the match
+        source = Source of the Match
+        '''
+        density = None
+        s_start = None
+        s_end = None
+        source = None
+
+        def __init__(self, start, end):
+                self.start = start
+                self.end = end
+                
+        def mean(self):
+                if not self.density:
+                        print("Warning: No density specified, Skipping...")
+                        return
+                x = 0
+                for y in self.density:
+                        x += y
+                x = x/len(self.density)
+                return x
+
 def match_elements(matches):
     '''Extract match elements'''
     output = []
@@ -73,4 +103,48 @@ def join_matches(matches):
                 except:
                         ns = None
                 output.append(ns)
+        return output
+
+def de_preprocess(matches, dic1, dic2, dist):
+        '''Takes the preprocessed match and makes it normal, and takes both dictionaries'''
+        output=[]
+        for i, cluster in enumerate(matches):
+                newcluster = []
+                for x in enumerate(cluster):
+                        newcluster.append(dic1[x[0]])
+                start = newcluster[0]
+                end = newcluster[-1]
+                mstart = dic2[cluster[0][1]]
+                mend = dic2[cluster[-1][1]]
+                dens = [None]*(1+end-start) #Where None means not yet known
+                for j,x in enumerate(newcluster):
+                        dens[x-start] = dist[i][j]
+                output.append((start, end, mstart, mend, dens))
+        return output
+
+def bilinear(dens):
+        '''Linearly aliases the match accuracy for matches between existing ones'''
+        for x in dens:
+                points = [i for i, y in enumerate(x) if y != None]
+                pairs = []
+                for y in range(0,len(points)-1):
+                        pairs.append((points[y], points[y+1]))
+                for y in pairs:
+                        interval = (x[y[1]]-x[y[0]]) / (y[1]- y[0])
+                        added = x[y[0]]
+                        if y[1]-y[0] > 1:
+                                for z in range(1, y[1]-y[0]):
+                                        added += interval
+                                        x[y[0]+z] = round(added)
+        return dens
+
+def shingle_final(input, dens):
+        '''Makes the matches into the Match class'''
+        output = []
+        for x in input:
+                y = Match(start = x[0], end = x[1])
+                y.s_start = x[2]
+                y.density = dens
+                y.s_end = x[3]
+                output.append(y)
         return output
