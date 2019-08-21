@@ -117,11 +117,12 @@ def de_preprocess(matches, dic1, dic2, dist):
                 end = newcluster[-1]
                 mstart = dic2[cluster[0][1]]
                 mend = dic2[cluster[-1][1]]
-                dens = [None]* (start-end)
-                for j,x in newcluster:
-                        dens[x-start] = dist[j]
-                output.append(start, end, mstart, mend)
-        return output, dens
+                dens = [None]*(1+end-start) #Where None means not yet known
+                for j,x in enumerate(newcluster):
+                        print(x-start, i,j)
+                        dens[x-start] = dist[i][j]
+                output.append((start, end, mstart, mend, dens))
+        return output
 
 def bilinear(dens):
         '''Linearly aliases the match accuracy for matches between existing ones'''
@@ -131,7 +132,7 @@ def bilinear(dens):
                 y = None
                 for z in points:
                         if y:
-                                points.append(y,x)
+                                points.append((y,x))
                         y = x
                 for y in pairs:
                         interval = round(  (dens[y[1]]-dens[y[0]]) / (y[1]- y[0])  ,2)

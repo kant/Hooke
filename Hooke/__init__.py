@@ -76,6 +76,10 @@ def print_matches(matches, sources, used = None):
     '''Prints
     Returns a list of indices of used sources
     '''
+    if isinstance(matches[0], order.Match):
+        print("\nMatches:")
+        for x in matches:
+            print("a")
     if not used:
         used = []
     print("\nMatches:")
@@ -120,15 +124,15 @@ def pre_search(norread, stopwords=None):
 def full_shin_comparison(input1, input2, dic1, dic2, shingle_size, gap, miin):
     input1 = compare.shingle(input1, shingle_size)
     input2 = compare.shingle(input2, shingle_size)
-    matches = compare.shin_matches(inpu1, input2)
+    matches = compare.shin_matches(input1, input2)
     matches = compare.cluster(matches, gap, miin)
     dist = compare.get_dist(matches)
-    matches, dist = order.de_preprocess(matches, dic1, dic2, dist)
+    matches = order.de_preprocess(matches, dic1, dic2, dist)
     dist = order.bilinear(dist)
     output = order.shingle_final(matches, dist)
     return output
 
-def Shingled(input, lang, miin, gap, shingle_size, threads = 10, pdfsupport = True):
+def Shingled(input, lang, miin, gap, shingle_size, threads = 10, pdfsupport = True, max_time=100):
     '''Does a complete search of the input using nlp'''
     nnlp = NaturalLP(lang)
     read, norread = read_file(input)
