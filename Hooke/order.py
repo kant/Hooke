@@ -28,7 +28,6 @@ class Match:
                 x = x/len(self.density)
                 return x
 
-
 def match_elements(matches):
     '''Extract match elements'''
     output = []
