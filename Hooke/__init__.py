@@ -72,14 +72,16 @@ def order_results(norcom, sources):
     matches = order.join_matches(m4)
     return matches
 
-def print_matches(matches, sources, used = None):
+def print_matches(matches, sources = None, used = None):
     '''Prints
     Returns a list of indices of used sources
     '''
     if isinstance(matches[0][0], order.Match):
         print("\nMatches:")
         for x in matches:
-            print(f"{len(x)} matches from {x[0].source}")
+            if len(x) > 0:
+                print(f"{len(x)} matches from {x[0].source}")
+        return
     if not used:
         used = []
     print("\nMatches:")
