@@ -4,15 +4,11 @@ Written in python, and based on quite a few requirements
 It is yet to work properly
 
 ## Installation
-Due to some errors, it is required to install textract and download 'punkt' manually.
 ```
-pip install git+https://github.com/oekshido/textract
 pip install pyHooke # Stable PyPi
 pip install git+https://github.com/oekshido/Hooke # Latest
-python
->>import nltk
->>nltk.download('punkt')
 ```
+Due to the inital installation, it may be required to install nltk datasets manually
 
 ## Usage
 To run a simple textual check:
@@ -20,10 +16,9 @@ To run a simple textual check:
 from Hooke import Hooke
 
 hk = Hooke() #Inits
-hk.Textual(input="test/test.txt") #Runs the comparison
-hk.print_matches() #Prints matches and source
-hk.time() #Prints time taken
+hk.Textual(input="test/test.txt") #Runs the fast, textual comparison
+hk.Shingled(input="test/test.txt") #Runs the nltk and shingle comparison
 ```
 
 ## Contributing
-Just pull request.
+Just pull request, with a brief explanation of the changes.

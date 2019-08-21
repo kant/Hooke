@@ -134,7 +134,7 @@ def full_shin_comparison(input1, input2, dic1, dic2, shingle_size, gap, miin):
     output = order.shingle_final(matches, dist)
     return output
 
-def Shingled(input, lang, miin, gap, shingle_size, threads = 10, pdfsupport = True, max_time=100, verbose = True):
+def Shingled(input, lang="english", miin=3, gap=2, shingle_size=1, threads = 10, pdfsupport = True, max_time=100, verbose = True):
     '''Does a complete search of the input using nlp'''
     nnlp = NaturalLP(lang)
     read, norread = read_file(input)

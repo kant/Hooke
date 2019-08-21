@@ -5,13 +5,13 @@ def readme():
         return f.read()
 
 setup(name='pyHooke',
-      version='0.1.1',
+      version='0.2.0',
       description='Open source plagiarism checker',
       long_description=readme(),
       long_description_content_type='text/markdown',
       classifiers=[
         'Development Status :: 3 - Alpha',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
         'Topic :: Text Processing :: Linguistic',
       ],
@@ -19,7 +19,7 @@ setup(name='pyHooke',
       url='http://github.com/oekshido/hooke',
       author='oekshido',
       author_email='oekshido@gmail.com',
-      license='GPLv3',
+      license='Apache-2.0',
       packages=['Hooke'],
       install_requires=[
           'fuzzysearch',
