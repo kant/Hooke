@@ -108,21 +108,21 @@ def cluster_old(matches, gap, miin):
 def cluster(matches, gap, miin):
     '''Much improved version of clustering (cluster_old)'''
     clusters = []
-    for x in matches:
-        merge = False
-        for i, y in enumerate(clusters):
-            for z in y:
-                if max(abs(x[0]-z[0]), abs(x[1] - z[1])) <= gap:
-                    if not merge:
-                        y.append(x)
-                        merge = i
-                    else:
-                        clusters[merge].extend([k for k in y if k not in clusters[merge]])
-                        y = []
-                    break
-        if not merge:
-            clusters.append([x])
-    return [x for x in clusters if len(x) >= miin]
+    for x in matches:                                                                                 #For every matching point
+        merge = False                                                                                 #Assumes it does not need merging
+        for i, y in enumerate(clusters):                                                              #For every cluster
+            for z in y:                                                                               #For every point in that cluster
+                if max(abs(x[0]-z[0]), abs(x[1] - z[1])) <= gap:                                        #Check if the distance is small enough
+                    if not merge:                                                                       #If it does not need merging
+                        y.append(x)                                                                       #Add the point to that cluster
+                        merge = i                                                                         #Save to "merge" the index of the cluster with which, in case of the point being in two clusters, the last will merge with
+                    else:                                                                               #Else, if it does
+                        clusters[merge].extend([k for k in y if k not in clusters[merge]])                #Put the non-repeating values of the last cluster in the first
+                        y = []                                                                            #Empty the cluster
+                    break                                                                               #Goes to the next one
+        if not merge:                                                                                 #If it does not find any cluster
+            clusters.append([x])                                                                        #Creates a new cluster with just itself
+    return [x for x in clusters if len(x) >= miin]                                                    #Returns clusters with minimum size
 
 def get_dist(matches):
     '''Gets distance to the closest match of every point'''
@@ -130,7 +130,7 @@ def get_dist(matches):
     for x in matches:
         dic = []
         for y in x:
-            min_dist = 256
+            min_dist = 255
             for z in x:
                 if y != z and max(abs(y[0]-z[0]), abs(y[1] - z[1])) < min_dist:
                     min_dist = max(abs(y[0]-z[0]), abs(y[1] - z[1]))

@@ -36,7 +36,7 @@ def normalize(x):
     '''Lowers, eliminates punctuation and strips text'''
     y = ""
     for z in x:
-        y = y + z + " "
+        y += z + " "
     output = y.lower()
     output = output.translate(str.maketrans("","", string.punctuation))
     output = output.strip()
