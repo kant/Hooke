@@ -32,7 +32,7 @@ class Match:
         x = x/len(self.density)
         return x
     
-    def find_text(self, text1, text2, extra = 3):
+    def find_text(self, text1, text2, extra = 0):
         self.text1 = text1[self.start-extra:self.end+extra]
         self.text2 = text2[self.s_start-extra:self.s_end+extra]
     
