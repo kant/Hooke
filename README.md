@@ -13,11 +13,10 @@ Due to the inital installation, it may be required to install nltk datasets manu
 ## Usage
 To run a simple textual check:
 ```python
-from Hooke import Hooke
+import Hooke
 
-hk = Hooke() #Inits
-hk.Textual(input="test/test.txt") #Runs the fast, textual comparison
-hk.Shingled(input="test/test.txt") #Runs the nltk and shingle comparison
+Hooke.Textual(input="test/test.txt") #Runs the fast, textual comparison
+Hooke.Shingled(input="test/test.txt") #Runs the nltk and shingle comparison
 ```
 
 ## Contributing
