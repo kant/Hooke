@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='pyHooke',
-      version='0.2.0',
+      version='0.2.1',
       description='Open source plagiarism checker',
       long_description=readme(),
       long_description_content_type='text/markdown',
