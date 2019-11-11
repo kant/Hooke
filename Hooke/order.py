@@ -32,9 +32,15 @@ class Match:
         x = x/len(self.density)
         return x
     
-    def find_text(self, text1, text2, extra = 0):
-        self.text1 = text1[self.start-extra:self.end+extra]
-        self.text2 = text2[self.s_start-extra:self.s_end+extra]
+    def find_text(self, text1, text2, extra = 5):
+        try:
+            self.text1 = text1[self.start-extra:self.end+extra]
+        except:
+            self.text1 = text1[self.start:self.end]
+        try:
+            self.text2 = text2[self.s_start-extra:self.s_end+extra]
+        except:
+            self.text2 = text2[self.s_start:self.s_end]
     
     def print(self):
         print(f"Document:\n {self.text1}\n\nSource:\n{self.text2}\n\n\n\n")

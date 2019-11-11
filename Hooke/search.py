@@ -32,10 +32,10 @@ def div(words, every=16, length=32):
 
 def search(searches, results=1):
     ''' Searches divided text in google'''
-    list = []
+    lis = []
     for x in searches:
         for element in google.search(x, results):
             url = element.link
-            if url not in list:
-                list.append(url)
-    return list
+            if url not in lis:
+                lis.append(url)
+    return lis
