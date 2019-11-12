@@ -32,15 +32,26 @@ class Match:
         x = x/len(self.density)
         return x
     
-    def find_text(self, text1, text2, extra = 5):
-        try:
-            self.text1 = text1[self.start-extra:self.end+extra]
-        except:
-            self.text1 = text1[self.start:self.end]
-        try:
-            self.text2 = text2[self.s_start-extra:self.s_end+extra]
-        except:
-            self.text2 = text2[self.s_start:self.s_end]
+    def find_text(self, text1, text2, extra = 6):
+        '''Finds the match index inside the text'''
+        start = self.start
+        end = self.end
+        s_start = self.s_start
+        s_end = self.s_end
+        
+        for _ in range(extra):
+            if start > 0:
+                start-=1
+            if end < len(text1):
+                end+=1
+            if s_start > 0:
+                s_start-=1
+            if s_end < len(text2):
+                s_end+=1
+            
+        self.text1 = text1[self.start-extra:self.end+extra]
+        self.text2 = text2[self.s_start-extra:self.s_end+extra]
+
         self.text1 = " ".join(self.text1)
         self.text2 = " ".join(self.text2)
     
