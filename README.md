@@ -8,7 +8,7 @@ It is yet to work properly
 pip install pyHooke # Stable PyPi
 pip install git+https://github.com/oekshido/Hooke # Latest
 ```
-Due to the inital installation, it may be required to install nltk datasets manually
+Due to the initial installation, it may be required to install nltk datasets manually
 
 ## Usage
 To run a simple textual check:
